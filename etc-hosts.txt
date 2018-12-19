@@ -1,0 +1,4 @@
+# BEGIN: bootup local hosts setup
+127.0.0.1 laravel.local
+127.0.0.1 portainer.local
+# END: bootup local hosts setup
