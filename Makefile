@@ -36,6 +36,8 @@ help:
 	# portainer-down            - remove mongo container
 	# redis                     - boot up redis container
 	# redis-down                - remove redis container
+	# vsftpd                    - boot up vsftpd container
+	# vsftpd-down               - remove vsftpd container
 	#
 	###########################################################################################################
 	@echo "Enjoy!"
@@ -130,3 +132,9 @@ redis: network
 
 redis-down:
 	docker-compose rm -fs redis
+
+vsftpd: network
+	docker-compose -f docker-compose-vsftpd.yml up -d vsftpd
+
+vsftpd-down:
+	docker-compose -f docker-compose-vsftpd.yml rm -fs vsftpd

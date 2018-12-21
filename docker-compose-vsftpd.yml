@@ -1,0 +1,24 @@
+version: "3"
+services:
+
+  vsftpd:
+    image: ${VSFTPD_IMG}
+    restart: always
+    container_name: ${VSFTPD_NAME}
+    ports:
+      - "20-21:20-21"
+      - "21100-21110:21100-21110"
+    environment:
+      - FTP_PASS=${VSFTPD_PASSWORD}
+    volumes:
+      - "vsftpd_data:/home/files"
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
+
+volumes:
+  vsftpd_data:
