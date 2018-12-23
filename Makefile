@@ -16,6 +16,7 @@ help:
 	# kill                      - kill container, e.g. make kill c=nginx
 	# logs                      - tail the container logs, e.g. make logs c=nginx
 	# network                   - create docker bridge network
+	# ping                      - check database health
 	# prune                     - run docker system prune
 	# prune-data                - [danger] run docker system prune and also remove container volume
 	# ps                        - list all containers
@@ -68,6 +69,16 @@ logs:
 network:
 	docker network create -d bridge ${NETWORK} || true
 
+ping:
+	@n=1; \
+	while [ $${n} -eq 1 ]; \
+	do \
+		sleep 2s; \
+		docker exec -it ${MARIADB_NAME} bash -c "mysql -u root -h 127.0.0.1 -p${MARIADB_PASSWORD} -e 'SELECT 1;'"; \
+		n=$$?; \
+	done;
+	@make print m="maraidb is ready for use";
+
 print:
 	@printf '\x1B[32m%s\x1B[0m\n' "$$m"
 
@@ -112,6 +123,7 @@ down:
 	docker-compose down
 
 laravel: mariadb nginx-proxy redis
+	@make ping
 	docker run -it --rm --network=${NETWORK} -v "${PWD}/laravel.sql:/laravel.sql" ${MARIADB_IMG} \
 	bash -c "mysql -A -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD} < /laravel.sql"
 	git submodule update --init
