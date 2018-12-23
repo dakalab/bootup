@@ -28,6 +28,8 @@ help:
 	# [DOCKER COMPOSE]
 	# up                        - run docker-compose up (boot up all the basic services)
 	# down                      - run docker-compose down (shutdown all the basic services)
+	# laravel                   - boot up laravel container
+	# laravel-down              - remove laravel container
 	# mariadb                   - boot up mariadb container
 	# mariadb-down              - remove mariadb container
 	# nginx-proxy               - boot up nginx-proxy container
@@ -108,6 +110,15 @@ up: network
 
 down:
 	docker-compose down
+
+laravel: mariadb nginx-proxy redis
+	docker run -it --rm --network=${NETWORK} -v "${PWD}/laravel.sql:/laravel.sql" ${MARIADB_IMG} \
+	bash -c "mysql -A -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD} < /laravel.sql"
+	git submodule update --init
+	docker-compose -f docker-compose-laravel.yml up -d laravel
+
+laravel-down:
+	docker-compose -f docker-compose-laravel.yml rm -fs laravel
 
 mariadb: network
 	docker-compose up -d mariadb

@@ -38,6 +38,15 @@ If you want to stop all the basic services, run
 make down
 ```
 
+## Laravel
+
+Boot up laravel in local:
+
+- add `127.0.0.1 laravel.local` to `/etc/hosts`
+- run `make laravel`
+- run `make logs c=laravel` to watch the setup logs, and take a teatime
+- visit `http://laravel.local`
+
 ## Portainer
 
 Boot up portainer in local:
