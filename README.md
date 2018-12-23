@@ -1,5 +1,6 @@
 # Bootup
 
+[![Release](https://img.shields.io/github/release/dakalab/bootup.svg)](https://github.com/dakalab/bootup/releases)
 [![License](https://img.shields.io/github/license/dakalab/bootup.svg)](https://github.com/dakalab/bootup)
 
 Use docker to boot up services, nginx-proxy/mariadb/redis etc.
