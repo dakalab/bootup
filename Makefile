@@ -132,41 +132,48 @@ laravel: mariadb nginx-proxy redis
 	docker-compose -f docker-compose-laravel.yml up -d laravel
 
 laravel-down:
-	docker-compose -f docker-compose-laravel.yml rm -fs laravel
+	docker-compose -f docker-compose-laravel.yml stop laravel
+	docker-compose -f docker-compose-laravel.yml rm -f laravel
 
 mariadb: network
 	docker-compose up -d mariadb
 
 mariadb-down:
-	docker-compose rm -fs mariadb
+	docker-compose stop mariadb
+	docker-compose rm -f mariadb
 
 nginx-proxy: network
 	docker-compose up -d nginx-proxy
 
 nginx-proxy-down:
-	docker-compose rm -fs nginx-proxy
+	docker-compose stop nginx-proxy
+	docker-compose rm -f nginx-proxy
 
 phpmyadmin: mariadb
 	@make pingdb
 	docker-compose -f docker-compose-phpmyadmin.yml up -d phpmyadmin
 
 phpmyadmin-down:
-	docker-compose -f docker-compose-phpmyadmin.yml rm -fs phpmyadmin
+	docker-compose -f docker-compose-phpmyadmin.yml stop phpmyadmin
+	docker-compose -f docker-compose-phpmyadmin.yml rm -f phpmyadmin
 
 portainer: network
 	docker-compose -f docker-compose-portainer.yml up -d portainer
 
 portainer-down:
-	docker-compose -f docker-compose-portainer.yml rm -fs portainer
+	docker-compose -f docker-compose-portainer.yml stop portainer
+	docker-compose -f docker-compose-portainer.yml rm -f portainer
 
 redis: network
 	docker-compose up -d redis
 
 redis-down:
-	docker-compose rm -fs redis
+	docker-compose stop redis
+	docker-compose rm -f redis
 
 vsftpd: network
 	docker-compose -f docker-compose-vsftpd.yml up -d vsftpd
 
 vsftpd-down:
-	docker-compose -f docker-compose-vsftpd.yml rm -fs vsftpd
+	docker-compose -f docker-compose-vsftpd.yml stop vsftpd
+	docker-compose -f docker-compose-vsftpd.yml rm -f vsftpd
