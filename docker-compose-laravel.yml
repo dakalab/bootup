@@ -13,7 +13,7 @@ services:
     volumes:
       - "${PWD}/laravel:/app"
       - "${PWD}/laravel.env:/app/.env"
-      - "${PWD}/laravel.sh:/start.sh"
+      - "${PWD}/laravel.sh:/scripts/laravel.sh"
     networks:
       - backend
 

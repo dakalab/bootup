@@ -45,7 +45,7 @@ Boot up laravel in local:
 
 - add `127.0.0.1 laravel.local` to `/etc/hosts`
 - run `make laravel`
-- run `make logs c=laravel` to watch the setup logs, and take a teatime
+- run `make logs c=laravel` to watch the setup logs, and take a teatime to wait for initialization finish
 - visit `http://laravel.local`
 
 ## Portainer
