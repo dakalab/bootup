@@ -16,7 +16,7 @@ help:
 	# kill                      - kill container, e.g. make kill c=nginx
 	# logs                      - tail the container logs, e.g. make logs c=nginx
 	# network                   - create docker bridge network
-	# ping                      - check database health
+	# pingdb                    - check database health
 	# prune                     - run docker system prune
 	# prune-data                - [danger] run docker system prune and also remove container volume
 	# ps                        - list all containers
@@ -35,6 +35,8 @@ help:
 	# mariadb-down              - remove mariadb container
 	# nginx-proxy               - boot up nginx-proxy container
 	# nginx-proxy-down          - remove nginx-proxy container
+	# phpmyadmin                - boot up phpmyadmin container
+	# phpmyadmin-down           - remove phpmyadmin container
 	# portainer                 - boot up portainer container
 	# portainer-down            - remove mongo container
 	# redis                     - boot up redis container
@@ -69,7 +71,7 @@ logs:
 network:
 	docker network create -d bridge ${NETWORK} || true
 
-ping:
+pingdb:
 	@n=1; \
 	while [ $${n} -eq 1 ]; \
 	do \
@@ -123,7 +125,7 @@ down:
 	docker-compose down
 
 laravel: mariadb nginx-proxy redis
-	@make ping
+	@make pingdb
 	docker run -it --rm --network=${NETWORK} -v "${PWD}/laravel.sql:/laravel.sql" ${MARIADB_IMG} \
 	bash -c "mysql -A -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD} < /laravel.sql"
 	git submodule update --init
@@ -143,6 +145,13 @@ nginx-proxy: network
 
 nginx-proxy-down:
 	docker-compose rm -fs nginx-proxy
+
+phpmyadmin: mariadb
+	@make pingdb
+	docker-compose -f docker-compose-phpmyadmin.yml up -d phpmyadmin
+
+phpmyadmin-down:
+	docker-compose -f docker-compose-phpmyadmin.yml rm -fs phpmyadmin
 
 portainer: network
 	docker-compose -f docker-compose-portainer.yml up -d portainer

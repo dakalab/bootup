@@ -1,0 +1,20 @@
+version: "3"
+services:
+
+  phpmyadmin:
+    image: ${PHPMYADMIN_IMG}
+    restart: always
+    container_name: ${PHPMYADMIN_NAME}
+    ports:
+      - "80"
+    environment:
+      - PMA_HOST=${MARIADB_NAME}
+      - VIRTUAL_HOST=${PHPMYADMIN_HOST}
+      - VIRTUAL_PORT=80
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

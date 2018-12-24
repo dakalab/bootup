@@ -41,16 +41,24 @@ make down
 
 ## Laravel
 
-Boot up laravel in local:
+Boot up laravel:
 
 - add `127.0.0.1 laravel.local` to `/etc/hosts`
 - run `make laravel`
 - run `make logs c=laravel` to watch the setup logs, and take a teatime to wait for initialization finish
 - visit `http://laravel.local`
 
+## phpMyAdmin
+
+Boot up phpMyAdmin:
+
+- add `127.0.0.1 phpmyadmin.local` to `/etc/hosts`
+- run `make phpmyadmin`
+- visit `http://phpmyadmin.local`
+
 ## Portainer
 
-Boot up portainer in local:
+Boot up portainer:
 
 - add `127.0.0.1 portainer.local` to `/etc/hosts`
 - run `make portainer`
@@ -63,3 +71,13 @@ Just run
 ```
 make help
 ```
+
+## Component versions
+
+- mariadb v10.3
+- nginx v1.14
+- redis v5.0
+- laravel v5.7
+- phpmyadmin v4.8
+- portainer v1.20
+- vsftpd v3.0
