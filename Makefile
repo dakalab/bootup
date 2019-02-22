@@ -1,3 +1,4 @@
+.PHONY: all
 all: help
 
 # it's important to declare we are using bash, otherwise some make commands may fail
@@ -5,6 +6,7 @@ SHELL := /bin/bash
 
 include .env
 
+.PHONY: help
 help:
 	###########################################################################################################
 	# [DOCKER]
@@ -47,30 +49,39 @@ help:
 	###########################################################################################################
 	@echo "Enjoy!"
 
+.PHONY: clean
 clean:
 	docker rmi -f $(docker images -q)
 
+.PHONY: cleanup
 cleanup: kill clean
 
+.PHONY: conndb
 conndb:
 	docker run -it --rm --network=${NETWORK} ${MARIADB_IMG} bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD}"
 
+.PHONY: connredis
 connredis:
 	docker run --rm -it --net=${NETWORK} ${REDIS_IMG} redis-cli -h ${REDIS_NAME}
 
+.PHONY: images
 images:
 	docker images
 
+.PHONY: kill
 kill:
 	@if [ "$$c" == "" ]; then c=$$(docker ps -q); fi; \
 	docker kill $$c
 
+.PHONY: logs
 logs:
 	@docker logs -f $$c
 
+.PHONY: network
 network:
 	docker network create -d bridge ${NETWORK} || true
 
+.PHONY: pingdb
 pingdb:
 	@n=1; \
 	while [ $${n} -eq 1 ]; \
@@ -81,31 +92,40 @@ pingdb:
 	done;
 	@make print m="maraidb is ready for use";
 
+.PHONY: print
 print:
 	@printf '\x1B[32m%s\x1B[0m\n' "$$m"
 
+.PHONY: prune
 prune:
 	@docker system prune -f
 
+.PHONY: prune-data
 prune-data:
 	@docker system prune -f --volumes
 
+.PHONY: ps
 ps:
 	docker ps -a
 
+.PHONY: restart
 restart:
 	@if [ "$$c" == "" ]; then c=$$(docker ps -a | sed 1d | awk '{print $$NF}'); fi; \
 	docker restart $$c
 
+.PHONY: rm-con
 rm-con:
 	deads=$$(docker ps -a | sed 1d | grep "Exited " | grep -v "Exited (0)" | awk '{print $$1}'); if [ "$$deads" != "" ]; then docker rm -f $$deads; fi
 
+.PHONY: rm-img
 rm-img: rm-con
 	none=$$(docker images | sed 1d | grep "^<none>" | awk '{print $$3}'); if [ "$$none" != "" ]; then docker rmi $$none; fi
 
+.PHONY: sh
 sh:
 	@docker exec -it $$c bash
 
+.PHONY: stats
 stats:
 	@if [ "$$c" == "" ]; then c=$$(docker ps -a | sed 1d | awk '{print $$NF}'); fi; \
 	docker stats $$c
@@ -118,12 +138,15 @@ stats:
 #    # #    # #    # #   #  #      #   #      #    # #    # #    # #      #    # #    # #
 #####   ####   ####  #    # ###### #    #      ####   ####  #    # #       ####   ####  ######
 
+.PHONY: up
 up: network
 	docker-compose up -d
 
+.PHONY: down
 down:
 	docker-compose down
 
+.PHONY: laravel
 laravel: mariadb nginx-proxy redis
 	@make pingdb
 	docker run -it --rm --network=${NETWORK} -v "${PWD}/laravel.sql:/laravel.sql" ${MARIADB_IMG} \
@@ -131,49 +154,62 @@ laravel: mariadb nginx-proxy redis
 	git submodule update --init
 	docker-compose -f docker-compose-laravel.yml up -d laravel
 
+.PHONY: laravel-down
 laravel-down:
 	docker-compose -f docker-compose-laravel.yml stop laravel
 	docker-compose -f docker-compose-laravel.yml rm -f laravel
 
+.PHONY: maraidb
 mariadb: network
 	docker-compose up -d mariadb
 
+.PHONY: mariadb-down
 mariadb-down:
 	docker-compose stop mariadb
 	docker-compose rm -f mariadb
 
+.PHONY: nginx-proxy
 nginx-proxy: network
 	docker-compose up -d nginx-proxy
 
+.PHONY: nginx-proxy-down
 nginx-proxy-down:
 	docker-compose stop nginx-proxy
 	docker-compose rm -f nginx-proxy
 
+.PHONY: phpmyadmin
 phpmyadmin: mariadb
 	@make pingdb
 	docker-compose -f docker-compose-phpmyadmin.yml up -d phpmyadmin
 
+.PHONY: phpmyadmin-down
 phpmyadmin-down:
 	docker-compose -f docker-compose-phpmyadmin.yml stop phpmyadmin
 	docker-compose -f docker-compose-phpmyadmin.yml rm -f phpmyadmin
 
+.PHONY: portainer
 portainer: network
 	docker-compose -f docker-compose-portainer.yml up -d portainer
 
+.PHONY: portainer-down
 portainer-down:
 	docker-compose -f docker-compose-portainer.yml stop portainer
 	docker-compose -f docker-compose-portainer.yml rm -f portainer
 
+.PHONY: redis
 redis: network
 	docker-compose up -d redis
 
+.PHONY: redis-down
 redis-down:
 	docker-compose stop redis
 	docker-compose rm -f redis
 
+.PHONY: vsftpd
 vsftpd: network
 	docker-compose -f docker-compose-vsftpd.yml up -d vsftpd
 
+.PHONY: vsftpd-down
 vsftpd-down:
 	docker-compose -f docker-compose-vsftpd.yml stop vsftpd
 	docker-compose -f docker-compose-vsftpd.yml rm -f vsftpd
