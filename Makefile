@@ -45,6 +45,8 @@ help:
 	# redis-down                - remove redis container
 	# vsftpd                    - boot up vsftpd container
 	# vsftpd-down               - remove vsftpd container
+	# mongo                     - boot up mongodb container
+	# mongo-down                - remove mongodb container
 	#
 	###########################################################################################################
 	@echo "Enjoy!"
@@ -213,3 +215,12 @@ vsftpd: network
 vsftpd-down:
 	docker-compose -f docker-compose-vsftpd.yml stop vsftpd
 	docker-compose -f docker-compose-vsftpd.yml rm -f vsftpd
+
+.PHONY: mongo
+mongo:
+	docker-compose -f docker-compose-mongo.yml up -d mongo
+
+.PHONY: mongo-down
+mongo-down:
+	docker-compose -f docker-compose-mongo.yml stop mongo
+	docker-compose -f docker-compose-mongo.yml rm -f mongo

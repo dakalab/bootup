@@ -81,3 +81,4 @@ make help
 - phpmyadmin v4.8
 - portainer v1.20
 - vsftpd v3.0
+- mongodb v4.0

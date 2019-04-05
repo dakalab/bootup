@@ -1,0 +1,19 @@
+version: "2"
+services:
+
+  mongo:
+    image: ${MONGO_IMG}
+    restart: always
+    container_name: ${MONGO_NAME}
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
