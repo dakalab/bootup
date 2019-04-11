@@ -1,0 +1,19 @@
+version: "2"
+services:
+
+  nginx-proxy:
+    image: ${NGINX_PROXY_IMG}
+    restart: always
+    container_name: ${NGINX_PROXY_NAME}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

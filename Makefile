@@ -29,12 +29,14 @@ help:
 	# stats                     - show container stats, e.g. make stats c=nginx
 	#
 	# [DOCKER COMPOSE]
-	# up                        - run docker-compose up (boot up all the basic services)
-	# down                      - run docker-compose down (shutdown all the basic services)
+	# up                        - boot up basic services
+	# down                      - remove basic services
 	# laravel                   - boot up laravel container
 	# laravel-down              - remove laravel container
 	# mariadb                   - boot up mariadb container
 	# mariadb-down              - remove mariadb container
+	# mongo                     - boot up mongodb container
+	# mongo-down                - remove mongodb container
 	# nginx-proxy               - boot up nginx-proxy container
 	# nginx-proxy-down          - remove nginx-proxy container
 	# phpmyadmin                - boot up phpmyadmin container
@@ -45,8 +47,6 @@ help:
 	# redis-down                - remove redis container
 	# vsftpd                    - boot up vsftpd container
 	# vsftpd-down               - remove vsftpd container
-	# mongo                     - boot up mongodb container
-	# mongo-down                - remove mongodb container
 	#
 	###########################################################################################################
 	@echo "Enjoy!"
@@ -141,12 +141,10 @@ stats:
 #####   ####   ####  #    # ###### #    #      ####   ####  #    # #       ####   ####  ######
 
 .PHONY: up
-up: network
-	docker-compose up -d
+up: network maraidb nginx-proxy phpmyadmin
 
 .PHONY: down
-down:
-	docker-compose down
+down: mariadb-down nginx-proxy-down phpmyadmin-down
 
 .PHONY: laravel
 laravel: mariadb nginx-proxy redis
@@ -163,21 +161,30 @@ laravel-down:
 
 .PHONY: maraidb
 mariadb: network
-	docker-compose up -d mariadb
+	docker-compose -f docker-compose-mariadb.yml up -d mariadb
 
 .PHONY: mariadb-down
 mariadb-down:
-	docker-compose stop mariadb
-	docker-compose rm -f mariadb
+	docker-compose -f docker-compose-mariadb.yml stop mariadb
+	docker-compose -f docker-compose-mariadb.yml rm -f mariadb
+
+.PHONY: mongo
+mongo:
+	docker-compose -f docker-compose-mongo.yml up -d mongo
+
+.PHONY: mongo-down
+mongo-down:
+	docker-compose -f docker-compose-mongo.yml stop mongo
+	docker-compose -f docker-compose-mongo.yml rm -f mongo
 
 .PHONY: nginx-proxy
 nginx-proxy: network
-	docker-compose up -d nginx-proxy
+	docker-compose -f docker-compose-nginx-proxy.yml up -d nginx-proxy
 
 .PHONY: nginx-proxy-down
 nginx-proxy-down:
-	docker-compose stop nginx-proxy
-	docker-compose rm -f nginx-proxy
+	docker-compose -f docker-compose-nginx-proxy.yml stop nginx-proxy
+	docker-compose -f docker-compose-nginx-proxy.yml rm -f nginx-proxy
 
 .PHONY: phpmyadmin
 phpmyadmin: mariadb
@@ -200,12 +207,12 @@ portainer-down:
 
 .PHONY: redis
 redis: network
-	docker-compose up -d redis
+	docker-compose -f docker-compose-redis.yml up -d redis
 
 .PHONY: redis-down
 redis-down:
-	docker-compose stop redis
-	docker-compose rm -f redis
+	docker-compose -f docker-compose-redis.yml stop redis
+	docker-compose -f docker-compose-redis.yml rm -f redis
 
 .PHONY: vsftpd
 vsftpd: network
@@ -216,11 +223,3 @@ vsftpd-down:
 	docker-compose -f docker-compose-vsftpd.yml stop vsftpd
 	docker-compose -f docker-compose-vsftpd.yml rm -f vsftpd
 
-.PHONY: mongo
-mongo:
-	docker-compose -f docker-compose-mongo.yml up -d mongo
-
-.PHONY: mongo-down
-mongo-down:
-	docker-compose -f docker-compose-mongo.yml stop mongo
-	docker-compose -f docker-compose-mongo.yml rm -f mongo

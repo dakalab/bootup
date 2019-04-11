@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/release/dakalab/bootup.svg)](https://github.com/dakalab/bootup/releases)
 [![License](https://img.shields.io/github/license/dakalab/bootup.svg)](https://github.com/dakalab/bootup)
 
-Use docker to boot up services, nginx-proxy/mariadb/redis etc.
+Use docker to boot up services, nginx-proxy/mysql/redis etc.
 
 ## Settings
 
@@ -11,29 +11,29 @@ All environment variables are defined in `.env`, make sure to change them to you
 
 If you just want to run in local machine for test purpose, no need to change anyting.
 
-If you want to change ports for exposing, you need to modify `docker-compose.yml`
+If you want to change ports for exposing, you need to modify docker-compose files.
 
 ## Basic services
 
-Boot up all the basic services defined in `docker-compose.yml`:
+Boot up basic services:
 
 ```
 make up
 ```
 
-If you just want to boot up a specific service, e.g. `redis`, run
+Boot up a specific service, e.g. `redis`:
 
 ```
 make redis
 ```
 
-If you want to stop a specific service, e.g. `redis`, run
+Stop a specific service, e.g. `redis`:
 
 ```
 make redis-down
 ```
 
-If you want to stop all the basic services, run
+Stop basic services:
 
 ```
 make down
