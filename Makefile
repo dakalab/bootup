@@ -13,12 +13,14 @@ help:
 	# clean                     - [danger] remove all docker images
 	# cleanup                   - [danger] stop all running containers and then remove all docker images
 	# conndb                    - connect to MariaDB using root
+	# connmysql                 - connect to MySQL using root
 	# connredis                 - connect to redis
 	# images                    - show docker images
 	# kill                      - kill container, e.g. make kill c=nginx
 	# logs                      - tail the container logs, e.g. make logs c=nginx
 	# network                   - create docker bridge network
-	# pingdb                    - check database health
+	# pingdb                    - check mariadb health
+	# pingmysql                 - check mysql health
 	# prune                     - run docker system prune
 	# prune-data                - [danger] run docker system prune and also remove container volume
 	# ps                        - list all containers
@@ -28,7 +30,7 @@ help:
 	# sh                        - enter the container, e.g. make sh c=nginx
 	# stats                     - show container stats, e.g. make stats c=nginx
 	#
-	# [DOCKER COMPOSE]
+	# [SERVICES]
 	# up                        - boot up basic services
 	# down                      - remove basic services
 	# laravel                   - boot up laravel container
@@ -37,6 +39,8 @@ help:
 	# mariadb-down              - remove mariadb container
 	# mongo                     - boot up mongodb container
 	# mongo-down                - remove mongodb container
+	# mysql                     - boot up mysql container
+	# mysql-down                - remove mysql container
 	# nginx-proxy               - boot up nginx-proxy container
 	# nginx-proxy-down          - remove nginx-proxy container
 	# phpmyadmin                - boot up phpmyadmin container
@@ -62,9 +66,13 @@ cleanup: kill clean
 conndb:
 	docker run -it --rm --network=${NETWORK} ${MARIADB_IMG} bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD}"
 
+.PHONY: connmysql
+connmysql:
+	docker run -it --rm --network=${NETWORK} -e MYSQL_PWD=${MYSQL_PASSWORD} ${MYSQL_IMG} bash -c "mysql -A --default-character-set=utf8 -h${MYSQL_NAME} -uroot"
+
 .PHONY: connredis
 connredis:
-	docker run --rm -it --net=${NETWORK} ${REDIS_IMG} redis-cli -h ${REDIS_NAME}
+	docker run --rm -it --network=${NETWORK} ${REDIS_IMG} redis-cli -h ${REDIS_NAME}
 
 .PHONY: images
 images:
@@ -92,7 +100,18 @@ pingdb:
 		docker exec -it ${MARIADB_NAME} bash -c "mysql -u root -h 127.0.0.1 -p${MARIADB_PASSWORD} -e 'SELECT 1;'"; \
 		n=$$?; \
 	done;
-	@make print m="maraidb is ready for use";
+	@make print m="mariadb is ready for use";
+
+.PHONY: pingmysql
+pingmysql:
+	@n=1; \
+	while [ $${n} -eq 1 ]; \
+	do \
+		sleep 2s; \
+		docker exec -it -e MYSQL_PWD=${MYSQL_PASSWORD} ${MYSQL_NAME} bash -c "mysql -u root -h 127.0.0.1 -e 'SELECT 1;'"; \
+		n=$$?; \
+	done;
+	@make print m="mysql is ready for use";
 
 .PHONY: print
 print:
@@ -133,15 +152,15 @@ stats:
 	docker stats $$c
 
 
-#####   ####   ####  #    # ###### #####       ####   ####  #    # #####   ####   ####  ######
-#    # #    # #    # #   #  #      #    #     #    # #    # ##  ## #    # #    # #      #
-#    # #    # #      ####   #####  #    #     #      #    # # ## # #    # #    #  ####  #####
-#    # #    # #      #  #   #      #####      #      #    # #    # #####  #    #      # #
-#    # #    # #    # #   #  #      #   #      #    # #    # #    # #      #    # #    # #
-#####   ####   ####  #    # ###### #    #      ####   ####  #    # #       ####   ####  ######
+ ####  ###### #####  #    #  #   ####  ######  ####
+#      #      #    # #    #  #  #    # #      #
+ ####  #####  #    # #    #  #  #      #####   ####
+     # #      #####  #    #  #  #      #           #
+#    # #      #   #   #  #   #  #    # #      #    #
+ ####  ###### #    #   ##    #   ####  ######  ####
 
 .PHONY: up
-up: network maraidb nginx-proxy phpmyadmin
+up: network mariadb nginx-proxy phpmyadmin
 
 .PHONY: down
 down: mariadb-down nginx-proxy-down phpmyadmin-down
@@ -159,7 +178,7 @@ laravel-down:
 	docker-compose -f docker-compose-laravel.yml stop laravel
 	docker-compose -f docker-compose-laravel.yml rm -f laravel
 
-.PHONY: maraidb
+.PHONY: mariadb
 mariadb: network
 	docker-compose -f docker-compose-mariadb.yml up -d mariadb
 
@@ -176,6 +195,15 @@ mongo:
 mongo-down:
 	docker-compose -f docker-compose-mongo.yml stop mongo
 	docker-compose -f docker-compose-mongo.yml rm -f mongo
+
+.PHONY: mysql
+mysql: network
+	docker-compose -f docker-compose-mysql.yml up -d mysql
+
+.PHONY: mysql-down
+mysql-down:
+	docker-compose -f docker-compose-mysql.yml stop mysql
+	docker-compose -f docker-compose-mysql.yml rm -f mysql
 
 .PHONY: nginx-proxy
 nginx-proxy: network

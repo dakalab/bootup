@@ -1,0 +1,23 @@
+version: "2"
+services:
+
+  mysql:
+    image: ${MYSQL_IMG}
+    restart: always
+    container_name: ${MYSQL_NAME}
+    ports:
+      - "3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - "mysql_data:/var/lib/mysql"
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
+
+volumes:
+  mysql_data:

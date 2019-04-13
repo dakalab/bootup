@@ -74,11 +74,12 @@ make help
 
 ## Component versions
 
-- mariadb v10.3
-- nginx v1.14
-- redis v5.0
 - laravel v5.7
+- mariadb v10.3
+- mongodb v4.0
+- mysql v8.0
+- nginx v1.14
 - phpmyadmin v4.8
 - portainer v1.20
+- redis v5.0
 - vsftpd v3.0
-- mongodb v4.0
