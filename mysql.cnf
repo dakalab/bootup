@@ -1,0 +1,61 @@
+# MySQL database server configuration file.
+#
+# The startup configuration is specified in the file /etc/mysql/my.cnf,
+# and that file in turn includes any files found in the /etc/mysql/conf.d directory
+# that end with .cnf. Settings in files in this directory will augment and/or override settings
+# in /etc/mysql/my.cnf. If you want to use a customized MySQL configuration,
+# you can create your alternative configuration file in a directory on the host machine
+# and then mount that directory location as /etc/mysql/conf.d inside the mariadb container.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+[mysql]
+
+no_auto_rehash
+max_allowed_packet = 16M
+prompt = '\u@\h [\d]> ' # 'user@host [schema]> '
+default_character_set = utf8
+
+[mysqldump]
+
+quick
+quote-names
+max_allowed_packet = 16M
+
+[mysqld]
+
+character_set_server = utf8mb4
+collation_server = utf8mb4_general_ci
+
+#
+# * Fine Tuning
+#
+max_connections = 100
+connect_timeout = 5
+wait_timeout = 600
+max_allowed_packet = 16M
+thread_cache_size = 128 # should be greater than max_connections
+sort_buffer_size = 4M
+bulk_insert_buffer_size = 16M
+tmp_table_size = 32M
+max_heap_table_size = 32M
+
+# Enable the slow query log to see queries with especially long duration
+slow_query_log = 1
+slow_query_log_file = /tmp/slow.log
+long_query_time = 1
+
+#
+# * InnoDB
+#
+# InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
+# Read the manual for more InnoDB related options. There are many!
+default_storage_engine = InnoDB
+
+innodb_buffer_pool_size = 256M
+innodb_log_buffer_size = 8M
+innodb_file_per_table = 1
+innodb_open_files = 400
+innodb_io_capacity = 400
+innodb_flush_method = O_DIRECT

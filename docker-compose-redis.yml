@@ -3,7 +3,7 @@ services:
 
   redis:
     image: ${REDIS_IMG}
-    restart: always
+    restart: unless-stopped
     container_name: ${REDIS_NAME}
     ports:
       - "6379"

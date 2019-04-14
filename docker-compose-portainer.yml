@@ -3,7 +3,7 @@ services:
 
   portainer:
     image: ${PORTAINER_IMG}
-    restart: always
+    restart: unless-stopped
     container_name: ${PORTAINER_NAME}
     ports:
       - "9000"

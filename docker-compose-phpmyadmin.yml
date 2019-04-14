@@ -3,7 +3,7 @@ services:
 
   phpmyadmin:
     image: ${PHPMYADMIN_IMG}
-    restart: always
+    restart: unless-stopped
     container_name: ${PHPMYADMIN_NAME}
     ports:
       - "80"

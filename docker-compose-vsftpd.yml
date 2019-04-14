@@ -3,7 +3,7 @@ services:
 
   vsftpd:
     image: ${VSFTPD_IMG}
-    restart: always
+    restart: unless-stopped
     container_name: ${VSFTPD_NAME}
     ports:
       - "20-21:20-21"

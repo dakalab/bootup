@@ -3,7 +3,7 @@ services:
 
   nginx-proxy:
     image: ${NGINX_PROXY_IMG}
-    restart: always
+    restart: unless-stopped
     container_name: ${NGINX_PROXY_NAME}
     ports:
       - "80:80"

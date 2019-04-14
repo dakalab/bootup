@@ -3,14 +3,16 @@ services:
 
   mysql:
     image: ${MYSQL_IMG}
-    restart: always
+    restart: unless-stopped
     container_name: ${MYSQL_NAME}
     ports:
       - "3306"
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_PWD=${MYSQL_PASSWORD}
     volumes:
       - "mysql_data:/var/lib/mysql"
+      - "./mysql.cnf:/etc/mysql/conf.d/mysql.cnf"
     networks:
       - backend
 
