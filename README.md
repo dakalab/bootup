@@ -64,6 +64,14 @@ Boot up portainer:
 - run `make portainer`
 - visit `http://portainer.local`
 
+## Vault
+
+Boot up vault:
+
+- add `127.0.0.1 vault.local` to `/etc/hosts`
+- run `make vault`
+- visit `http://vault.local/ui`
+
 ## Need help?
 
 Just run
@@ -82,4 +90,5 @@ make help
 - phpmyadmin v4.8
 - portainer v1.20
 - redis v5.0
+- vault v1.1.1
 - vsftpd v3.0

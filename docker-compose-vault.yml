@@ -1,0 +1,27 @@
+version: "2"
+services:
+
+  vault:
+    image: ${VAULT_IMG}
+    restart: unless-stopped
+    container_name: ${VAULT_NAME}
+    ports:
+      - "8200"
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT}
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=${VAULT_ROOT}
+      - VIRTUAL_HOST=${VAULT_HOST}
+      - VIRTUAL_PORT=8200
+    volumes:
+      - "./vault.hcl:/vault/config/vault.hcl"
+    networks:
+      - backend
+    cap_add:
+      - IPC_LOCK
+    # command: server # this is for production use
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

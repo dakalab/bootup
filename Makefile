@@ -29,6 +29,7 @@ help:
 	# rm-img                    - remove all <none> images/layers
 	# sh                        - enter the container, e.g. make sh c=nginx
 	# stats                     - show container stats, e.g. make stats c=nginx
+	# vault-cli                 - execute vault commands, e.g. make vault-cli c="kv get secret/hello"
 	#
 	# [SERVICES]
 	# up                        - boot up basic services
@@ -49,6 +50,8 @@ help:
 	# portainer-down            - remove mongo container
 	# redis                     - boot up redis container
 	# redis-down                - remove redis container
+	# vault                     - boot up vault container
+	# vault-down                - remove vault container
 	# vsftpd                    - boot up vsftpd container
 	# vsftpd-down               - remove vsftpd container
 	#
@@ -151,6 +154,10 @@ stats:
 	@if [ "$$c" == "" ]; then c=$$(docker ps -a | sed 1d | awk '{print $$NF}'); fi; \
 	docker stats $$c
 
+.PHONY: vault-cli
+vault-cli:
+	@if [ "$$c" == "" ]; then c=status; fi; \
+	docker-compose -f docker-compose-vault.yml run --rm vault $$c
 
  ####  ###### #####  #    #  #   ####  ######  ####
 #      #      #    # #    #  #  #    # #      #
@@ -242,6 +249,15 @@ redis-down:
 	docker-compose -f docker-compose-redis.yml stop redis
 	docker-compose -f docker-compose-redis.yml rm -f redis
 
+.PHONY: vault
+vault: network
+	docker-compose -f docker-compose-vault.yml up -d vault
+
+.PHONY: vault-down
+vault-down:
+	docker-compose -f docker-compose-vault.yml stop vault
+	docker-compose -f docker-compose-vault.yml rm -f vault
+
 .PHONY: vsftpd
 vsftpd: network
 	docker-compose -f docker-compose-vsftpd.yml up -d vsftpd
@@ -250,4 +266,3 @@ vsftpd: network
 vsftpd-down:
 	docker-compose -f docker-compose-vsftpd.yml stop vsftpd
 	docker-compose -f docker-compose-vsftpd.yml rm -f vsftpd
-

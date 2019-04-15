@@ -2,4 +2,5 @@
 127.0.0.1 laravel.local
 127.0.0.1 phpmyadmin.local
 127.0.0.1 portainer.local
+127.0.0.1 vault.local
 # END: bootup local hosts setup
