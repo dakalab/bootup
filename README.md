@@ -74,7 +74,7 @@ make help
 
 ## Component versions
 
-- laravel v5.7
+- laravel v5.8
 - mariadb v10.3
 - mongodb v4.0
 - mysql v8.0
