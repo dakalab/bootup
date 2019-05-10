@@ -34,6 +34,8 @@ help:
 	# [SERVICES]
 	# up                        - boot up basic services
 	# down                      - remove basic services
+	# jaeger                    - boot up jaeger container
+	# jaeger-down               - remove jaeger container
 	# laravel                   - boot up laravel container
 	# laravel-down              - remove laravel container
 	# mariadb                   - boot up mariadb container
@@ -171,6 +173,15 @@ up: network mariadb nginx-proxy phpmyadmin
 
 .PHONY: down
 down: mariadb-down nginx-proxy-down phpmyadmin-down
+
+.PHONY: jaeger
+jaeger: network
+	docker-compose -f docker-compose-jaeger.yml up -d jaeger
+
+.PHONY: jaeger-down
+jaeger-down:
+	docker-compose -f docker-compose-jaeger.yml stop jaeger
+	docker-compose -f docker-compose-jaeger.yml rm -f jaeger
 
 .PHONY: laravel
 laravel: mariadb nginx-proxy redis

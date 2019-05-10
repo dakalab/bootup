@@ -39,6 +39,14 @@ Stop basic services:
 make down
 ```
 
+## Jaeger
+
+Boot up jaeger:
+
+- add `127.0.0.1 jaeger.local` to `/etc/hosts`
+- run `make jaeger`
+- visit `http://jaeger.local/`
+
 ## Laravel
 
 Boot up laravel:

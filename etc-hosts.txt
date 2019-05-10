@@ -3,4 +3,5 @@
 127.0.0.1 phpmyadmin.local
 127.0.0.1 portainer.local
 127.0.0.1 vault.local
+127.0.0.1 jaeger.local
 # END: bootup local hosts setup
