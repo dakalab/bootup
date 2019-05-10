@@ -1,6 +1,6 @@
-storage "inmem" {}
-
 ui = true
+
+storage "inmem" {}
 
 // storage "mysql" {
 //   address = "172.17.0.1:3306"

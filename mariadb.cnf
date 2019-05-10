@@ -25,6 +25,7 @@ max_allowed_packet = 16M
 
 [mysqld]
 
+bind-address = 0.0.0.0
 character_set_server = utf8mb4
 collation_server = utf8mb4_general_ci
 

@@ -8,9 +8,9 @@ services:
     ports:
       - "8200"
     environment:
-      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT}
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT} # this is for dev use, remove it in production use
       - VAULT_ADDR=http://vault:8200
-      - VAULT_TOKEN=${VAULT_ROOT}
+      - VAULT_TOKEN=${VAULT_ROOT} # this is for dev use, replace it with valid token in production use
       - VIRTUAL_HOST=${VAULT_HOST}
       - VIRTUAL_PORT=8200
     volumes:
@@ -19,7 +19,7 @@ services:
       - backend
     cap_add:
       - IPC_LOCK
-    # command: server # this is for production use
+    # command: server # use it for production
 
 networks:
   backend:
