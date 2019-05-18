@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/release/dakalab/bootup.svg)](https://github.com/dakalab/bootup/releases)
 [![License](https://img.shields.io/github/license/dakalab/bootup.svg)](https://github.com/dakalab/bootup)
 
-Use docker to boot up services, nginx-proxy/mysql/redis etc.
+Use docker to boot up services, nginx-proxy/mysql/redis etc. The aim of this project is to facilitate local development and testing, and demonstrate how to run famous services in container. DO NOT use it in production environment.
 
 ## Settings
 
@@ -90,6 +90,7 @@ make help
 
 ## Component versions
 
+- jaeger v1.11
 - laravel v5.8
 - mariadb v10.3
 - mongodb v4.0
