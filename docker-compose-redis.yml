@@ -7,8 +7,11 @@ services:
     container_name: ${REDIS_NAME}
     ports:
       - "6379"
+    volumes:
+      - "./redis.conf:/etc/redis.conf"
     networks:
       - backend
+    command: redis-server /etc/redis.conf
 
 networks:
   backend:

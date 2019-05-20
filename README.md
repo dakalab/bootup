@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/release/dakalab/bootup.svg)](https://github.com/dakalab/bootup/releases)
 [![License](https://img.shields.io/github/license/dakalab/bootup.svg)](https://github.com/dakalab/bootup)
 
-Use docker to boot up services, nginx-proxy/mysql/redis etc. The aim of this project is to facilitate local development and testing, and demonstrate how to run famous services in container. DO NOT use it in production environment.
+Use docker to boot up services, nginx-proxy/mysql/redis etc. The aim of this project is to facilitate local development and testing, and demonstrate how to run famous services in container. DO NOT use it in production environment directly.
 
 ## Settings
 

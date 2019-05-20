@@ -149,7 +149,7 @@ rm-img: rm-con
 
 .PHONY: sh
 sh:
-	@docker exec -it $$c bash
+	@docker exec -it $$c sh
 
 .PHONY: stats
 stats:
