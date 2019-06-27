@@ -69,11 +69,11 @@ cleanup: kill clean
 
 .PHONY: conndb
 conndb:
-	docker-compose -f docker-compose-mariadb.yml run --rm ${MARIADB_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot"
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot"
 
 .PHONY: connmysql
 connmysql:
-	docker-compose -f docker-compose-mysql.yml run --rm ${MYSQL_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MYSQL_NAME} -uroot"
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MYSQL_NAME} -uroot"
 
 .PHONY: connredis
 connredis:
