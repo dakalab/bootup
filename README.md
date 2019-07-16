@@ -90,14 +90,14 @@ make help
 
 ## Component versions
 
-- jaeger v1.11
+- jaeger v1.13
 - laravel v5.8
-- mariadb v10.3
+- mariadb v10.4
 - mongodb v4.0
 - mysql v8.0
-- nginx v1.14
-- phpmyadmin v4.8
-- portainer v1.20
+- nginx v1.17
+- phpmyadmin v4.9
+- portainer v1.21
 - redis v5.0
-- vault v1.1.1
+- vault v1.1.3
 - vsftpd v3.0
