@@ -98,6 +98,7 @@ make help
 - nginx v1.17
 - phpmyadmin v4.9
 - portainer v1.21
+- prometheus v2.11
 - redis v5.0
 - vault v1.1.3
 - vsftpd v3.0

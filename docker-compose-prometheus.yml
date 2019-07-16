@@ -1,0 +1,21 @@
+version: "2"
+services:
+
+  prometheus:
+    image: ${PROMETHEUS_IMG}
+    restart: unless-stopped
+    container_name: ${PROMETHEUS_NAME}
+    ports:
+      - "9090:9090"
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+    environment:
+      - VIRTUAL_HOST=${PROMETHEUS_HOST}
+      - VIRTUAL_PORT=9090
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

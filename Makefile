@@ -49,7 +49,9 @@ help:
 	# phpmyadmin                - boot up phpmyadmin container
 	# phpmyadmin-down           - remove phpmyadmin container
 	# portainer                 - boot up portainer container
-	# portainer-down            - remove mongo container
+	# portainer-down            - remove portainer container
+	# prometheus                - boot up prometheus container
+	# prometheus-down           - remove prometheus container
 	# redis                     - boot up redis container
 	# redis-down                - remove redis container
 	# vault                     - boot up vault container
@@ -250,6 +252,15 @@ portainer: network
 portainer-down:
 	docker-compose -f docker-compose-portainer.yml stop portainer
 	docker-compose -f docker-compose-portainer.yml rm -f portainer
+
+.PHONY: prometheus
+prometheus: network
+	docker-compose -f docker-compose-prometheus.yml up -d prometheus
+
+.PHONY: prometheus-down
+prometheus-down:
+	docker-compose -f docker-compose-prometheus.yml stop prometheus
+	docker-compose -f docker-compose-prometheus.yml rm -f prometheus
 
 .PHONY: redis
 redis: network

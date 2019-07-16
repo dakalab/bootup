@@ -4,4 +4,5 @@
 127.0.0.1 portainer.local
 127.0.0.1 vault.local
 127.0.0.1 jaeger.local
+127.0.0.1 prometheus.local
 # END: bootup local hosts setup
