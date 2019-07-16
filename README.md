@@ -72,6 +72,15 @@ Boot up portainer:
 - run `make portainer`
 - visit `http://portainer.local`
 
+## Prometheus
+
+Boot up Prometheus:
+
+- add `127.0.0.1 prometheus.local` to `/etc/hosts`
+- edit `prometheus.yml` to customise the configs
+- run `make prometheus`
+- visit `http://prometheus.local`
+
 ## Vault
 
 Boot up vault:
