@@ -28,6 +28,15 @@ services:
     networks:
       - backend
 
+  blackbox-exporter:
+    image: ${BLACKBOX_EXPORTER_IMG}
+    restart: unless-stopped
+    container_name: ${BLACKBOX_EXPORTER_NAME}
+    ports:
+      - "9115"
+    networks:
+      - backend
+
 networks:
   backend:
     external:

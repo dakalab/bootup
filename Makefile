@@ -34,6 +34,8 @@ help:
 	# [SERVICES]
 	# up                        - boot up basic services
 	# down                      - remove basic services
+	# blackbox-exporter         - boot up blackbox-exporter container
+	# blackbox-exporter-down    - remove blackbox-exporter container
 	# grafana                   - boot up grafana container
 	# grafana-down              - remove grafana container
 	# jaeger                    - boot up jaeger container
@@ -179,6 +181,15 @@ up: network mariadb nginx-proxy phpmyadmin
 
 .PHONY: down
 down: mariadb-down nginx-proxy-down phpmyadmin-down
+
+.PHONY: blackbox-exporter
+blackbox-exporter: network
+	docker-compose -f docker-compose-prometheus.yml up -d blackbox-exporter
+
+.PHONY: blackbox-exporter-down
+blackbox-exporter-down:
+	docker-compose -f docker-compose-prometheus.yml stop blackbox-exporter
+	docker-compose -f docker-compose-prometheus.yml rm -f blackbox-exporter
 
 .PHONY: grafana
 grafana: network
