@@ -8,10 +8,23 @@ services:
     ports:
       - "9090"
     volumes:
-      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./prometheus/mysqld-exporter.yml:/etc/prometheus/mysqld-exporter.yml"
     environment:
       - VIRTUAL_HOST=${PROMETHEUS_HOST}
       - VIRTUAL_PORT=9090
+    networks:
+      - backend
+
+  mysqld-exporter:
+    image: ${MYSQL_EXPORTER_IMG}
+    restart: unless-stopped
+    container_name: ${MYSQL_EXPORTER_NAME}
+    ports:
+      - "9104"
+    environment:
+      # do not use root in production, see https://github.com/prometheus/mysqld_exporter
+      - DATA_SOURCE_NAME="root:${MYSQL_PASSWORD}@(${MYSQL_NAME}:3306)/"
     networks:
       - backend
 

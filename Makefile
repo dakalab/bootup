@@ -44,6 +44,8 @@ help:
 	# mongo-down                - remove mongodb container
 	# mysql                     - boot up mysql container
 	# mysql-down                - remove mysql container
+	# mysqld-exporter           - boot up mysqld-exporter container
+	# mysqld-exporter-down      - remove mysqld-exporter container
 	# nginx-proxy               - boot up nginx-proxy container
 	# nginx-proxy-down          - remove nginx-proxy container
 	# phpmyadmin                - boot up phpmyadmin container
@@ -224,6 +226,15 @@ mysql: network
 mysql-down:
 	docker-compose -f docker-compose-mysql.yml stop mysql
 	docker-compose -f docker-compose-mysql.yml rm -f mysql
+
+.PHONY: mysqld-exporter
+mysqld-exporter: network
+	docker-compose -f docker-compose-prometheus.yml up -d mysqld-exporter
+
+.PHONY: mysqld-exporter-down
+mysqld-exporter-down:
+	docker-compose -f docker-compose-prometheus.yml stop mysqld-exporter
+	docker-compose -f docker-compose-prometheus.yml rm -f mysqld-exporter
 
 .PHONY: nginx-proxy
 nginx-proxy: network
