@@ -39,6 +39,14 @@ Stop basic services:
 make down
 ```
 
+## Grafana
+
+Boot up grafana:
+
+- add `127.0.0.1 grafana.local` to `/etc/hosts`
+- run `make grafana`
+- visit `http://grafana.local`
+
 ## Jaeger
 
 Boot up jaeger:
@@ -99,6 +107,7 @@ make help
 
 ## Component versions
 
+- grafana v6.2.5
 - jaeger v1.13
 - laravel v5.8
 - mariadb v10.4

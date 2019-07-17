@@ -1,0 +1,19 @@
+version: "2"
+services:
+
+  grafana:
+    image: ${GRAFANA_IMG}
+    restart: unless-stopped
+    container_name: ${GRAFANA_NAME}
+    ports:
+      - "3000"
+    environment:
+      - VIRTUAL_HOST=${GRAFANA_HOST}
+      - VIRTUAL_PORT=3000
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

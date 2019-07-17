@@ -34,6 +34,8 @@ help:
 	# [SERVICES]
 	# up                        - boot up basic services
 	# down                      - remove basic services
+	# grafana                   - boot up grafana container
+	# grafana-down              - remove grafana container
 	# jaeger                    - boot up jaeger container
 	# jaeger-down               - remove jaeger container
 	# laravel                   - boot up laravel container
@@ -177,6 +179,15 @@ up: network mariadb nginx-proxy phpmyadmin
 
 .PHONY: down
 down: mariadb-down nginx-proxy-down phpmyadmin-down
+
+.PHONY: grafana
+grafana: network
+	docker-compose -f docker-compose-grafana.yml up -d grafana
+
+.PHONY: grafana-down
+grafana-down:
+	docker-compose -f docker-compose-grafana.yml stop grafana
+	docker-compose -f docker-compose-grafana.yml rm -f grafana
 
 .PHONY: jaeger
 jaeger: network

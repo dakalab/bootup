@@ -5,4 +5,5 @@
 127.0.0.1 vault.local
 127.0.0.1 jaeger.local
 127.0.0.1 prometheus.local
+127.0.0.1 grafana.local
 # END: bootup local hosts setup
