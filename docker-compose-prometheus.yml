@@ -25,7 +25,7 @@ services:
       - "9104"
     environment:
       # do not use root in production, see https://github.com/prometheus/mysqld_exporter
-      - DATA_SOURCE_NAME="root:${MYSQL_PASSWORD}@(${MYSQL_NAME}:3306)/"
+      - DATA_SOURCE_NAME="root:${MARIADB_PASSWORD}@(${MARIADB_NAME}:3306)/"
     networks:
       - backend
 

@@ -292,13 +292,13 @@ portainer-down:
 	docker-compose -f docker-compose-portainer.yml rm -f portainer
 
 .PHONY: prometheus
-prometheus: network
-	docker-compose -f docker-compose-prometheus.yml up -d prometheus
+prometheus: network init
+	docker-compose -f docker-compose-prometheus.yml up -d
 
 .PHONY: prometheus-down
 prometheus-down:
-	docker-compose -f docker-compose-prometheus.yml stop prometheus
-	docker-compose -f docker-compose-prometheus.yml rm -f prometheus
+	docker-compose -f docker-compose-prometheus.yml stop
+	docker-compose -f docker-compose-prometheus.yml rm -f
 
 .PHONY: redis
 redis: network

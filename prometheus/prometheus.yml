@@ -39,7 +39,7 @@ scrape_configs:
       module: [http_2xx]  # Look for a HTTP 200 response.
     static_configs:
     - targets:
-      - http://localhost:9090 # prometheus itself
+      - http://prometheus:9090
       - http://grafana:3000
     relabel_configs:
     - source_labels: [__address__]
