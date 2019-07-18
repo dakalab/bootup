@@ -117,7 +117,7 @@ Just run
 make help
 ```
 
-## Component versions
+## Components
 
 - grafana v6.2.5
 - jaeger v1.13

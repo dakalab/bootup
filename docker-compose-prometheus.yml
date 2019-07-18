@@ -36,7 +36,7 @@ services:
     ports:
       - "9115"
     volumes:
-      - "./prometheus/blackbox-exporter.yml:/etc/blackbox-exporter/config.yml"
+      - "./prometheus/blackbox-exporter.yml:/etc/blackbox_exporter/config.yml"
     networks:
       - backend
 
