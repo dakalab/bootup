@@ -98,7 +98,8 @@ kill:
 
 .PHONY: logs
 logs:
-	@docker logs -f $$c
+	@if [ "$$n" == "" ]; then n=30; fi; \
+	docker logs -f --tail=$$n $$c
 
 .PHONY: network
 network:

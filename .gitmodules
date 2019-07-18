@@ -2,3 +2,6 @@
 	path = laravel
 	url = https://github.com/laravel/laravel.git
 	ignore = dirty
+[submodule "grafana/plugins/piechart-panel"]
+	path = grafana/plugins/piechart-panel
+	url = https://github.com/grafana/piechart-panel.git

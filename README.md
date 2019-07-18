@@ -47,6 +47,12 @@ Boot up grafana:
 - run `make grafana`
 - visit `http://grafana.local`
 
+Recommended dashboards:
+
+- https://grafana.com/grafana/dashboards/9965
+- https://grafana.com/grafana/dashboards/7362
+- https://grafana.com/grafana/dashboards/893
+
 ## Jaeger
 
 Boot up jaeger:
