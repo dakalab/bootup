@@ -8,6 +8,7 @@ services:
     ports:
       - "9090"
     volumes:
+      - "./prometheus/data:/prometheus"
       - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
       - "./prometheus/mysqld-exporter.yml:/etc/prometheus/mysqld-exporter.yml"
     environment:
