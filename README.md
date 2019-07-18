@@ -5,13 +5,19 @@
 
 Use docker to boot up services, nginx-proxy/mysql/redis etc. The aim of this project is to facilitate local development and testing, and demonstrate how to run famous services in container. DO NOT use it in production environment directly.
 
-## Settings
+## Getting started
 
 All environment variables are defined in `.env`, make sure to change them to your own before booting up services.
 
 If you just want to run in local machine for test purpose, no need to change anyting.
 
 If you want to change ports for exposing, you need to modify docker-compose files.
+
+Before you boot up services, you need to pull git submodules:
+
+```
+make init
+```
 
 ## Basic services
 

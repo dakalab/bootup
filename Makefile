@@ -16,6 +16,7 @@ help:
 	# connmysql                 - connect to MySQL using root
 	# connredis                 - connect to redis
 	# images                    - show docker images
+	# init                      - pull git submodules
 	# kill                      - kill container, e.g. make kill c=nginx
 	# logs                      - tail the container logs, e.g. make logs c=nginx
 	# network                   - create docker bridge network
@@ -90,6 +91,10 @@ connredis:
 .PHONY: images
 images:
 	docker images
+
+.PHONY: init
+init:
+	git submodule update --init
 
 .PHONY: kill
 kill:
@@ -211,11 +216,10 @@ jaeger-down:
 	docker-compose -f docker-compose-jaeger.yml rm -f jaeger
 
 .PHONY: laravel
-laravel: mariadb nginx-proxy redis
+laravel: init mariadb nginx-proxy redis
 	@make pingdb
 	docker run -it --rm --network=${NETWORK} -v "${PWD}/laravel.sql:/laravel.sql" ${MARIADB_IMG} \
 	bash -c "mysql -A -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD} < /laravel.sql"
-	git submodule update --init
 	docker-compose -f docker-compose-laravel.yml up -d laravel
 
 .PHONY: laravel-down
