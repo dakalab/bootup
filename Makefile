@@ -15,10 +15,12 @@ help:
 	# conndb                    - connect to MariaDB using root
 	# connmysql                 - connect to MySQL using root
 	# connredis                 - connect to redis
+	# dbdump                    - dump database from MariaDB, e.g. make dbdump db=test
 	# images                    - show docker images
 	# init                      - pull git submodules
 	# kill                      - kill container, e.g. make kill c=nginx
 	# logs                      - tail the container logs, e.g. make logs c=nginx
+	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
 	# network                   - create docker bridge network
 	# pingdb                    - check mariadb health
 	# pingmysql                 - check mysql health
@@ -88,6 +90,11 @@ connmysql:
 connredis:
 	docker run --rm -it --network=${NETWORK} ${REDIS_IMG} redis-cli -h ${REDIS_NAME}
 
+.PHONY: dbdump
+dbdump:
+	@if [ "$$db" == "" ]; then db=mysql; fi; \
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysqldump -h ${MARIADB_NAME} -uroot $$db > ./backup/$${db}.sql
+
 .PHONY: images
 images:
 	docker images
@@ -105,6 +112,11 @@ kill:
 logs:
 	@if [ "$$n" == "" ]; then n=30; fi; \
 	docker logs -f --tail=$$n $$c
+
+.PHONY: mysqldump
+mysqldump:
+	@if [ "$$db" == "" ]; then db=mysql; fi; \
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysqldump -h ${MYSQL_NAME} -uroot $$db > ./backup/$${db}.sql
 
 .PHONY: network
 network:
