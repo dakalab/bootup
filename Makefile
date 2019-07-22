@@ -16,11 +16,13 @@ help:
 	# connmysql                 - connect to MySQL using root
 	# connredis                 - connect to redis
 	# dbdump                    - dump database from MariaDB, e.g. make dbdump db=test
+	# dbimport                  - import database into MariaDB, e.g. make dbimport db=test
 	# images                    - show docker images
 	# init                      - pull git submodules
 	# kill                      - kill container, e.g. make kill c=nginx
 	# logs                      - tail the container logs, e.g. make logs c=nginx
 	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
+	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
 	# network                   - create docker bridge network
 	# pingdb                    - check mariadb health
 	# pingmysql                 - check mysql health
@@ -98,8 +100,13 @@ connredis:
 
 .PHONY: dbdump
 dbdump:
-	@if [ "$$db" == "" ]; then db=mysql; fi; \
+	@if [ "$$db" == "" ]; then exit 1; fi; \
 	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysqldump -h ${MARIADB_NAME} -uroot $$db > ./backup/$${db}.sql
+
+.PHONY: dbimport
+dbimport:
+	@if [ "$$db" == "" ]; then exit 1; fi; \
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysql -h ${MARIADB_NAME} -uroot --database=$$db < ./backup/$${db}.sql
 
 .PHONY: images
 images:
@@ -121,8 +128,14 @@ logs:
 
 .PHONY: mysqldump
 mysqldump:
-	@if [ "$$db" == "" ]; then db=mysql; fi; \
+	@if [ "$$db" == "" ]; then exit 1; fi; \
 	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysqldump -h ${MYSQL_NAME} -uroot $$db > ./backup/$${db}.sql
+
+.PHONY: mysqlimport
+mysqlimport:
+	@if [ "$$db" == "" ]; then exit 1; fi; \
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysql -h ${MYSQL_NAME} -uroot --database=$$db < ./backup/$${db}.sql
+
 
 .PHONY: network
 network:
