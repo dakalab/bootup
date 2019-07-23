@@ -68,6 +68,12 @@ help:
 	# vsftpd                    - boot up vsftpd container
 	# vsftpd-down               - remove vsftpd container
 	#
+	# [TOOLS]
+	#
+	# certstrap-init            - initialize a new certificate authority
+	# certstrap-request         - request a certificate, including keypair
+	# certstrap-sign            - sign certificate request of host and generate the certificate
+	#
 	###########################################################################################################
 	@echo "Enjoy!"
 
@@ -338,3 +344,26 @@ vsftpd: network
 vsftpd-down:
 	docker-compose -f docker-compose-vsftpd.yml stop vsftpd
 	docker-compose -f docker-compose-vsftpd.yml rm -f vsftpd
+
+
+#####  ####   ####  #       ####
+  #   #    # #    # #      #
+  #   #    # #    # #       ####
+  #   #    # #    # #           #
+  #   #    # #    # #      #    #
+  #    ####   ####  ######  ####
+
+.PHONY: certstrap-init
+certstrap-init:
+	@if [ "$$ca" == "" ]; then exit 1; fi; \
+	docker run --rm -v ${PWD}/certs:/out -it ${CERTSTRAP_IMG} init --common-name "$$ca" --passphrase ""
+
+.PHONY: certstrap-request
+certstrap-request:
+	@if [ "$$name" == "" ]; then exit 1; fi; \
+	docker run --rm -v ${PWD}/certs:/out -it ${CERTSTRAP_IMG} request-cert --common-name "$$name" --passphrase ""
+
+.PHONY: certstrap-sign
+certstrap-sign:
+	@if [ "$$ca" == "" ] || [ "$$name" == "" ] ; then exit 1; fi; \
+	docker run --rm -v ${PWD}/certs:/out -it ${CERTSTRAP_IMG} sign $$name --CA "$$ca"
