@@ -61,9 +61,9 @@ help:
 	# vsftpd-down               - remove vsftpd container
 	#
 	# [TOOLS]
-	# certstrap-init            - initialize a new certificate authority
-	# certstrap-request         - request a certificate, including keypair
-	# certstrap-sign            - sign certificate request of host and generate the certificate
+	# certstrap-init            - initialize a new certificate authority, e.g. make certstrap-init ca=dakalab
+	# certstrap-request         - request a certificate including keypair, e.g. make certstrap-request name=micro
+	# certstrap-sign            - sign certificate request of host and generate the certificate, e.g. make certstrap-sign name=micro ca=dakalab
 	# conndb                    - connect to MariaDB using root
 	# connmysql                 - connect to MySQL using root
 	# connredis                 - connect to redis
