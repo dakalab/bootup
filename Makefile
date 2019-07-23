@@ -12,20 +12,11 @@ help:
 	# [DOCKER]
 	# clean                     - [danger] remove all docker images
 	# cleanup                   - [danger] stop all running containers and then remove all docker images
-	# conndb                    - connect to MariaDB using root
-	# connmysql                 - connect to MySQL using root
-	# connredis                 - connect to redis
-	# dbdump                    - dump database from MariaDB, e.g. make dbdump db=test
-	# dbimport                  - import database into MariaDB, e.g. make dbimport db=test
 	# images                    - show docker images
 	# init                      - pull git submodules
 	# kill                      - kill container, e.g. make kill c=nginx
 	# logs                      - tail the container logs, e.g. make logs c=nginx
-	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
-	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
 	# network                   - create docker bridge network
-	# pingdb                    - check mariadb health
-	# pingmysql                 - check mysql health
 	# prune                     - run docker system prune
 	# prune-data                - [danger] run docker system prune and also remove container volume
 	# ps                        - list all containers
@@ -34,7 +25,6 @@ help:
 	# rm-img                    - remove all <none> images/layers
 	# sh                        - enter the container, e.g. make sh c=nginx
 	# stats                     - show container stats, e.g. make stats c=nginx
-	# vault-cli                 - execute vault commands, e.g. make vault-cli c="kv get secret/hello"
 	#
 	# [SERVICES]
 	# up                        - boot up basic services
@@ -71,10 +61,19 @@ help:
 	# vsftpd-down               - remove vsftpd container
 	#
 	# [TOOLS]
-	#
 	# certstrap-init            - initialize a new certificate authority
 	# certstrap-request         - request a certificate, including keypair
 	# certstrap-sign            - sign certificate request of host and generate the certificate
+	# conndb                    - connect to MariaDB using root
+	# connmysql                 - connect to MySQL using root
+	# connredis                 - connect to redis
+	# dbdump                    - dump database from MariaDB, e.g. make dbdump db=test
+	# dbimport                  - import database into MariaDB, e.g. make dbimport db=test
+	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
+	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
+	# pingdb                    - check mariadb health
+	# pingmysql                 - check mysql health
+	# vault-cli                 - execute vault commands, e.g. make vault-cli c="kv get secret/hello"
 	#
 	###########################################################################################################
 	@echo "Enjoy!"
@@ -85,28 +84,6 @@ clean:
 
 .PHONY: cleanup
 cleanup: kill clean
-
-.PHONY: conndb
-conndb:
-	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot"
-
-.PHONY: connmysql
-connmysql:
-	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MYSQL_NAME} -uroot"
-
-.PHONY: connredis
-connredis:
-	docker run --rm -it --network=${NETWORK} ${REDIS_IMG} redis-cli -h ${REDIS_NAME}
-
-.PHONY: dbdump
-dbdump:
-	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysqldump -h ${MARIADB_NAME} -uroot $$db > ./backup/$${db}.sql
-
-.PHONY: dbimport
-dbimport:
-	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysql -h ${MARIADB_NAME} -uroot --database=$$db < ./backup/$${db}.sql
 
 .PHONY: images
 images:
@@ -126,42 +103,9 @@ logs:
 	@if [ "$$n" == "" ]; then n=30; fi; \
 	docker logs -f --tail=$$n $$c
 
-.PHONY: mysqldump
-mysqldump:
-	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysqldump -h ${MYSQL_NAME} -uroot $$db > ./backup/$${db}.sql
-
-.PHONY: mysqlimport
-mysqlimport:
-	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysql -h ${MYSQL_NAME} -uroot --database=$$db < ./backup/$${db}.sql
-
-
 .PHONY: network
 network:
 	docker network create -d bridge ${NETWORK} || true
-
-.PHONY: pingdb
-pingdb:
-	@n=1; \
-	while [ $${n} -eq 1 ]; \
-	do \
-		sleep 2s; \
-		docker exec -it ${MARIADB_NAME} bash -c "mysql -u root -h 127.0.0.1 -p${MARIADB_PASSWORD} -e 'SELECT 1;'"; \
-		n=$$?; \
-	done;
-	@make print m="mariadb is ready for use";
-
-.PHONY: pingmysql
-pingmysql:
-	@n=1; \
-	while [ $${n} -eq 1 ]; \
-	do \
-		sleep 2s; \
-		docker exec -it -e MYSQL_PWD=${MYSQL_PASSWORD} ${MYSQL_NAME} bash -c "mysql -u root -h 127.0.0.1 -e 'SELECT 1;'"; \
-		n=$$?; \
-	done;
-	@make print m="mysql is ready for use";
 
 .PHONY: print
 print:
@@ -200,11 +144,6 @@ sh:
 stats:
 	@if [ "$$c" == "" ]; then c=$$(docker ps -a | sed 1d | awk '{print $$NF}'); fi; \
 	docker stats $$c
-
-.PHONY: vault-cli
-vault-cli:
-	@if [ "$$c" == "" ]; then c=status; fi; \
-	docker-compose -f docker-compose-vault.yml run --rm vault $$c
 
  ####  ###### #####  #    #  #   ####  ######  ####
 #      #      #    # #    #  #  #    # #      #
@@ -380,3 +319,62 @@ certstrap-request:
 certstrap-sign:
 	@if [ "$$ca" == "" ] || [ "$$name" == "" ] ; then exit 1; fi; \
 	docker run --rm -v ${PWD}/certs:/out -it ${CERTSTRAP_IMG} sign $$name --CA "$$ca"
+
+.PHONY: conndb
+conndb:
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot"
+
+.PHONY: connmysql
+connmysql:
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MYSQL_NAME} -uroot"
+
+.PHONY: connredis
+connredis:
+	docker run --rm -it --network=${NETWORK} ${REDIS_IMG} redis-cli -h ${REDIS_NAME}
+
+.PHONY: dbdump
+dbdump:
+	@if [ "$$db" == "" ]; then exit 1; fi; \
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysqldump -h ${MARIADB_NAME} -uroot $$db > ./backup/$${db}.sql
+
+.PHONY: dbimport
+dbimport:
+	@if [ "$$db" == "" ]; then exit 1; fi; \
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysql -h ${MARIADB_NAME} -uroot --database=$$db < ./backup/$${db}.sql
+
+.PHONY: mysqldump
+mysqldump:
+	@if [ "$$db" == "" ]; then exit 1; fi; \
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysqldump -h ${MYSQL_NAME} -uroot $$db > ./backup/$${db}.sql
+
+.PHONY: mysqlimport
+mysqlimport:
+	@if [ "$$db" == "" ]; then exit 1; fi; \
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysql -h ${MYSQL_NAME} -uroot --database=$$db < ./backup/$${db}.sql
+
+.PHONY: pingdb
+pingdb:
+	@n=1; \
+	while [ $${n} -eq 1 ]; \
+	do \
+		sleep 2s; \
+		docker exec -it ${MARIADB_NAME} bash -c "mysql -u root -h 127.0.0.1 -p${MARIADB_PASSWORD} -e 'SELECT 1;'"; \
+		n=$$?; \
+	done;
+	@make print m="mariadb is ready for use";
+
+.PHONY: pingmysql
+pingmysql:
+	@n=1; \
+	while [ $${n} -eq 1 ]; \
+	do \
+		sleep 2s; \
+		docker exec -it -e MYSQL_PWD=${MYSQL_PASSWORD} ${MYSQL_NAME} bash -c "mysql -u root -h 127.0.0.1 -e 'SELECT 1;'"; \
+		n=$$?; \
+	done;
+	@make print m="mysql is ready for use";
+
+.PHONY: vault-cli
+vault-cli:
+	@if [ "$$c" == "" ]; then c=status; fi; \
+	docker-compose -f docker-compose-vault.yml run --rm vault $$c
