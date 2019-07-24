@@ -12,6 +12,7 @@ help:
 	# [DOCKER]
 	# clean                     - [danger] remove all docker images
 	# cleanup                   - [danger] stop all running containers and then remove all docker images
+	# hostip                    - get the docker host ip
 	# images                    - show docker images
 	# init                      - pull git submodules
 	# kill                      - kill container, e.g. make kill c=nginx
@@ -84,6 +85,10 @@ clean:
 
 .PHONY: cleanup
 cleanup: kill clean
+
+.PHONY: hostip
+hostip:
+	@docker network inspect ${NETWORK} | grep Gateway | cut -f 2 -d: | sed 's/^ "//' | sed 's/".*$$//'
 
 .PHONY: images
 images:
