@@ -122,6 +122,7 @@ make help
 ## Components
 
 - grafana v6.2.5
+- influxdb v1.7
 - jaeger v1.13
 - laravel v5.8
 - mariadb v10.4
@@ -129,7 +130,7 @@ make help
 - mysql v8.0
 - nginx v1.17
 - phpmyadmin v4.9
-- portainer v1.21
+- portainer v1.22
 - prometheus v2.11
 - redis v5.0
 - vault v1.1.3
