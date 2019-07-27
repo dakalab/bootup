@@ -1,0 +1,25 @@
+version: "2"
+services:
+
+  influxdb:
+    image: ${INFLUXDB_IMG}
+    restart: unless-stopped
+    container_name: ${INFLUXDB_NAME}
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=mydb
+      - INFLUXDB_USER=telegraf
+      - INFLUXDB_USER_PASSWORD=secretpassword
+    volumes:
+      - "influxdb_data:/var/lib/influxdb"
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
+
+volumes:
+  influxdb_data:

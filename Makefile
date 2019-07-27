@@ -34,6 +34,8 @@ help:
 	# blackbox-exporter-down    - remove blackbox-exporter container
 	# grafana                   - boot up grafana container
 	# grafana-down              - remove grafana container
+	# influxdb                  - boot up influxdb container
+	# influxdb-down             - remove influxdb container
 	# jaeger                    - boot up jaeger container
 	# jaeger-down               - remove jaeger container
 	# laravel                   - boot up laravel container
@@ -70,6 +72,7 @@ help:
 	# connredis                 - connect to redis
 	# dbdump                    - dump database from MariaDB, e.g. make dbdump db=test
 	# dbimport                  - import database into MariaDB, e.g. make dbimport db=test
+	# influxdb-cli              - connect to the local InfluxDB instance
 	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
 	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
 	# pingdb                    - check mariadb health
@@ -180,6 +183,15 @@ grafana: network
 grafana-down:
 	docker-compose -f docker-compose-grafana.yml stop grafana
 	docker-compose -f docker-compose-grafana.yml rm -f grafana
+
+.PHONY: influxdb
+influxdb: network
+	docker-compose -f docker-compose-influxdb.yml up -d influxdb
+
+.PHONY: influxdb-down
+influxdb-down:
+	docker-compose -f docker-compose-influxdb.yml stop influxdb
+	docker-compose -f docker-compose-influxdb.yml rm -f influxdb
 
 .PHONY: jaeger
 jaeger: network
@@ -346,6 +358,10 @@ dbdump:
 dbimport:
 	@if [ "$$db" == "" ]; then exit 1; fi; \
 	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysql -h ${MARIADB_NAME} -uroot --database=$$db < ./backup/$${db}.sql
+
+.PHONY: influxdb-cli
+influxdb-cli:
+	docker exec -it influxdb influx -precision rfc3339
 
 .PHONY: mysqldump
 mysqldump:
