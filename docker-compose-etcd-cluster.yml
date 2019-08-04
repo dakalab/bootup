@@ -1,0 +1,73 @@
+version: "2"
+services:
+
+  etcd-0:
+    image: ${ETCD_IMG}
+    restart: unless-stopped
+    container_name: etcd-0
+    ports:
+      - "2379"
+      - "2380"
+    networks:
+      - backend
+    command: [
+      "/usr/local/bin/etcd",
+      "--name=etcd-node-0",
+      "--data-dir=/etcd-data",
+      "--advertise-client-urls=http://etcd-0:2379",
+      "--initial-advertise-peer-urls=http://etcd-0:2380",
+      "--listen-client-urls=http://0.0.0.0:2379",
+      "--listen-peer-urls=http://0.0.0.0:2380",
+      "--initial-cluster=etcd-node-0=http://etcd-0:2380,etcd-node-1=http://etcd-1:2380,etcd-node-2=http://etcd-2:2380",
+      "--initial-cluster-state=new",
+      "--initial-cluster-token=${ETCD_TOKEN}"
+    ]
+
+  etcd-1:
+    image: ${ETCD_IMG}
+    restart: unless-stopped
+    container_name: etcd-1
+    ports:
+      - "2379"
+      - "2380"
+    networks:
+      - backend
+    command: [
+      "/usr/local/bin/etcd",
+      "--name=etcd-node-1",
+      "--data-dir=/etcd-data",
+      "--advertise-client-urls=http://etcd-1:2379",
+      "--initial-advertise-peer-urls=http://etcd-1:2380",
+      "--listen-client-urls=http://0.0.0.0:2379",
+      "--listen-peer-urls=http://0.0.0.0:2380",
+      "--initial-cluster=etcd-node-0=http://etcd-0:2380,etcd-node-1=http://etcd-1:2380,etcd-node-2=http://etcd-2:2380",
+      "--initial-cluster-state=new",
+      "--initial-cluster-token=${ETCD_TOKEN}"
+    ]
+
+  etcd-2:
+    image: ${ETCD_IMG}
+    restart: unless-stopped
+    container_name: etcd-2
+    ports:
+      - "2379"
+      - "2380"
+    networks:
+      - backend
+    command: [
+      "/usr/local/bin/etcd",
+      "--name=etcd-node-2",
+      "--data-dir=/etcd-data",
+      "--advertise-client-urls=http://etcd-2:2379",
+      "--initial-advertise-peer-urls=http://etcd-2:2380",
+      "--listen-client-urls=http://0.0.0.0:2379",
+      "--listen-peer-urls=http://0.0.0.0:2380",
+      "--initial-cluster=etcd-node-0=http://etcd-0:2380,etcd-node-1=http://etcd-1:2380,etcd-node-2=http://etcd-2:2380",
+      "--initial-cluster-state=new",
+      "--initial-cluster-token=${ETCD_TOKEN}"
+    ]
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

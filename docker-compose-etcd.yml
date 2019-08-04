@@ -6,21 +6,23 @@ services:
     restart: unless-stopped
     container_name: ${ETCD_NAME}
     ports:
-      - "2379:2379"
-      - "2380:2380"
+      - "2379"
+      - "2380"
     volumes:
       - "etcd_data:/etcd-data"
     networks:
       - backend
     command: [
       "/usr/local/bin/etcd",
-      "--name=node1",
+      "--name=${ETCD_NODE}",
       "--data-dir=/etcd-data",
-      "--advertise-client-urls=http://${HOST_IP}:2379",
-      "--initial-advertise-peer-urls=http://${HOST_IP}:2380",
+      "--advertise-client-urls=http://${ETCD_NAME}:2379",
+      "--initial-advertise-peer-urls=http://${ETCD_NAME}:2380",
       "--listen-client-urls=http://0.0.0.0:2379",
       "--listen-peer-urls=http://0.0.0.0:2380",
-      "--initial-cluster=node1=http://${HOST_IP}:2380"
+      "--initial-cluster=${ETCD_NODE}=http://${ETCD_NAME}:2380",
+      "--initial-cluster-state=new",
+      "--initial-cluster-token=${ETCD_TOKEN}"
     ]
 networks:
   backend:

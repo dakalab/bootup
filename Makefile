@@ -36,6 +36,8 @@ help:
 	# blackbox-exporter-down    - remove blackbox-exporter container
 	# etcd                      - boot up single node etcd container
 	# etcd-down                 - remove single node etcd container
+	# etcd-cluster              - boot up etcd cluster containers
+	# etcd-cluster-down         - remove etcd cluster containers
 	# grafana                   - boot up grafana container
 	# grafana-down              - remove grafana container
 	# influxdb                  - boot up influxdb container
@@ -77,6 +79,7 @@ help:
 	# dbdump                    - dump database from MariaDB, e.g. make dbdump db=test
 	# dbimport                  - import database into MariaDB, e.g. make dbimport db=test
 	# etcd-cli                  - execute etcd commands, e.g. make etcd-cli c="endpoint health"
+	# etcd-cluster-cli          - execute etcd cluster commands, e.g. make etcd-cluster-cli c="member list"
 	# influxdb-cli              - connect to the local InfluxDB instance
 	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
 	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
@@ -182,12 +185,21 @@ blackbox-exporter-down:
 
 .PHONY: etcd
 etcd: network
-	${COMPOSE_ENV} docker-compose -f docker-compose-etcd.yml up -d etcd
+	docker-compose -f docker-compose-etcd.yml up -d
 
 .PHONY: etcd-down
 etcd-down:
-	${COMPOSE_ENV} docker-compose -f docker-compose-etcd.yml stop etcd
-	${COMPOSE_ENV} docker-compose -f docker-compose-etcd.yml rm -f etcd
+	docker-compose -f docker-compose-etcd.yml stop
+	docker-compose -f docker-compose-etcd.yml rm -f
+
+.PHONY: etcd-cluster
+etcd-cluster: network
+	docker-compose -f docker-compose-etcd-cluster.yml up -d
+
+.PHONY: etcd-cluster-down
+etcd-cluster-down:
+	docker-compose -f docker-compose-etcd-cluster.yml stop
+	docker-compose -f docker-compose-etcd-cluster.yml rm -f
 
 .PHONY: grafana
 grafana: network
@@ -377,6 +389,11 @@ dbimport:
 etcd-cli:
 	@if [ "$$c" == "" ]; then c=version; fi; \
 	docker exec -it -e ETCDCTL_API=3 etcd /usr/local/bin/etcdctl $$c
+
+.PHONY: etcd-cluster-cli
+etcd-cluster-cli:
+	@if [ "$$c" == "" ]; then c=version; fi; \
+	docker exec -it -e ETCDCTL_API=3 etcd-0 /usr/local/bin/etcdctl $$c
 
 .PHONY: influxdb-cli
 influxdb-cli:
