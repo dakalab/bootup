@@ -388,12 +388,12 @@ dbimport:
 .PHONY: etcd-cli
 etcd-cli:
 	@if [ "$$c" == "" ]; then c=version; fi; \
-	docker exec -it -e ETCDCTL_API=3 etcd /usr/local/bin/etcdctl $$c
+	if [ "$$ep" == "" ]; then ep=${ETCD_NAME}:2379; fi; \
+	docker run --rm -it --network=${NETWORK} -e ETCDCTL_API=3 ${ETCD_IMG} etcdctl --endpoints=$$ep $$c
 
 .PHONY: etcd-cluster-cli
 etcd-cluster-cli:
-	@if [ "$$c" == "" ]; then c=version; fi; \
-	docker exec -it -e ETCDCTL_API=3 etcd-0 /usr/local/bin/etcdctl $$c
+	@make etcd-cli ep="etcd-0:2379,etcd-1:2379,etcd-2:2379" c="$$c"
 
 .PHONY: influxdb-cli
 influxdb-cli:
