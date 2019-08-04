@@ -4,6 +4,8 @@ all: help
 # it's important to declare we are using bash, otherwise some make commands may fail
 SHELL := /bin/bash
 
+COMPOSE_ENV := HOST_IP=$$(make hostip)
+
 include .env
 
 .PHONY: help
@@ -32,6 +34,8 @@ help:
 	# down                      - remove basic services
 	# blackbox-exporter         - boot up blackbox-exporter container
 	# blackbox-exporter-down    - remove blackbox-exporter container
+	# etcd                      - boot up single node etcd container
+	# etcd-down                 - remove single node etcd container
 	# grafana                   - boot up grafana container
 	# grafana-down              - remove grafana container
 	# influxdb                  - boot up influxdb container
@@ -72,6 +76,7 @@ help:
 	# connredis                 - connect to redis
 	# dbdump                    - dump database from MariaDB, e.g. make dbdump db=test
 	# dbimport                  - import database into MariaDB, e.g. make dbimport db=test
+	# etcd-cli                  - execute etcd commands, e.g. make etcd-cli c="endpoint health"
 	# influxdb-cli              - connect to the local InfluxDB instance
 	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
 	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
@@ -174,6 +179,15 @@ blackbox-exporter: network
 blackbox-exporter-down:
 	docker-compose -f docker-compose-prometheus.yml stop blackbox-exporter
 	docker-compose -f docker-compose-prometheus.yml rm -f blackbox-exporter
+
+.PHONY: etcd
+etcd: network
+	${COMPOSE_ENV} docker-compose -f docker-compose-etcd.yml up -d etcd
+
+.PHONY: etcd-down
+etcd-down:
+	${COMPOSE_ENV} docker-compose -f docker-compose-etcd.yml stop etcd
+	${COMPOSE_ENV} docker-compose -f docker-compose-etcd.yml rm -f etcd
 
 .PHONY: grafana
 grafana: network
@@ -358,6 +372,11 @@ dbdump:
 dbimport:
 	@if [ "$$db" == "" ]; then exit 1; fi; \
 	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysql -h ${MARIADB_NAME} -uroot --database=$$db < ./backup/$${db}.sql
+
+.PHONY: etcd-cli
+etcd-cli:
+	@if [ "$$c" == "" ]; then c=version; fi; \
+	docker exec -it -e ETCDCTL_API=3 etcd /usr/local/bin/etcdctl $$c
 
 .PHONY: influxdb-cli
 influxdb-cli:
