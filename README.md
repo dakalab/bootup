@@ -5,6 +5,10 @@
 
 Use docker to boot up services, nginx-proxy/mysql/redis etc. The aim of this project is to facilitate local development and testing, and demonstrate how to run famous services in container. DO NOT use it in production environment directly.
 
+## Prerequisites
+
+This project uses compose format version 3.7, so it requires Docker Engine 18.06.0+ and docker-compose 1.22.0+.
+
 ## Getting started
 
 All environment variables are defined in `.env`, make sure to change them to your own before booting up services.
@@ -131,8 +135,8 @@ make help
 - mysql v8.0
 - nginx v1.17
 - phpmyadmin v4.9
-- portainer v1.22
+- portainer v1.22.0
 - prometheus v2.11
 - redis v5.0
-- vault v1.1.3
+- vault v1.2.0
 - vsftpd v3.0

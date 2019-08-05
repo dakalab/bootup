@@ -180,8 +180,7 @@ blackbox-exporter: network
 
 .PHONY: blackbox-exporter-down
 blackbox-exporter-down:
-	docker-compose -f docker-compose-prometheus.yml stop blackbox-exporter
-	docker-compose -f docker-compose-prometheus.yml rm -f blackbox-exporter
+	docker-compose -f docker-compose-prometheus.yml rm -fs blackbox-exporter
 
 .PHONY: etcd
 etcd: network
@@ -189,8 +188,7 @@ etcd: network
 
 .PHONY: etcd-down
 etcd-down:
-	docker-compose -f docker-compose-etcd.yml stop
-	docker-compose -f docker-compose-etcd.yml rm -f
+	docker-compose -f docker-compose-etcd.yml rm -fs
 
 .PHONY: etcd-cluster
 etcd-cluster: network
@@ -198,74 +196,66 @@ etcd-cluster: network
 
 .PHONY: etcd-cluster-down
 etcd-cluster-down:
-	docker-compose -f docker-compose-etcd-cluster.yml stop
-	docker-compose -f docker-compose-etcd-cluster.yml rm -f
+	docker-compose -f docker-compose-etcd-cluster.yml rm -fs
 
 .PHONY: grafana
 grafana: network
-	docker-compose -f docker-compose-grafana.yml up -d grafana
+	docker-compose -f docker-compose-grafana.yml up -d
 
 .PHONY: grafana-down
 grafana-down:
-	docker-compose -f docker-compose-grafana.yml stop grafana
-	docker-compose -f docker-compose-grafana.yml rm -f grafana
+	docker-compose -f docker-compose-grafana.yml rm -fs
 
 .PHONY: influxdb
 influxdb: network
-	docker-compose -f docker-compose-influxdb.yml up -d influxdb
+	docker-compose -f docker-compose-influxdb.yml up -d
 
 .PHONY: influxdb-down
 influxdb-down:
-	docker-compose -f docker-compose-influxdb.yml stop influxdb
-	docker-compose -f docker-compose-influxdb.yml rm -f influxdb
+	docker-compose -f docker-compose-influxdb.yml rm -fs
 
 .PHONY: jaeger
 jaeger: network
-	docker-compose -f docker-compose-jaeger.yml up -d jaeger
+	docker-compose -f docker-compose-jaeger.yml up -d
 
 .PHONY: jaeger-down
 jaeger-down:
-	docker-compose -f docker-compose-jaeger.yml stop jaeger
-	docker-compose -f docker-compose-jaeger.yml rm -f jaeger
+	docker-compose -f docker-compose-jaeger.yml rm -fs
 
 .PHONY: laravel
 laravel: init mariadb nginx-proxy redis
 	@make pingdb
 	docker run -it --rm --network=${NETWORK} -v "${PWD}/laravel.sql:/laravel.sql" ${MARIADB_IMG} \
 	bash -c "mysql -A -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD} < /laravel.sql"
-	docker-compose -f docker-compose-laravel.yml up -d laravel
+	docker-compose -f docker-compose-laravel.yml up -d
 
 .PHONY: laravel-down
 laravel-down:
-	docker-compose -f docker-compose-laravel.yml stop laravel
-	docker-compose -f docker-compose-laravel.yml rm -f laravel
+	docker-compose -f docker-compose-laravel.yml rm -fs
 
 .PHONY: mariadb
 mariadb: network
-	docker-compose -f docker-compose-mariadb.yml up -d mariadb
+	docker-compose -f docker-compose-mariadb.yml up -d
 
 .PHONY: mariadb-down
 mariadb-down:
-	docker-compose -f docker-compose-mariadb.yml stop mariadb
-	docker-compose -f docker-compose-mariadb.yml rm -f mariadb
+	docker-compose -f docker-compose-mariadb.yml rm -f
 
 .PHONY: mongo
 mongo:
-	docker-compose -f docker-compose-mongo.yml up -d mongo
+	docker-compose -f docker-compose-mongo.yml up -d
 
 .PHONY: mongo-down
 mongo-down:
-	docker-compose -f docker-compose-mongo.yml stop mongo
-	docker-compose -f docker-compose-mongo.yml rm -f mongo
+	docker-compose -f docker-compose-mongo.yml rm -fs
 
 .PHONY: mysql
 mysql: network
-	docker-compose -f docker-compose-mysql.yml up -d mysql
+	docker-compose -f docker-compose-mysql.yml up -d
 
 .PHONY: mysql-down
 mysql-down:
-	docker-compose -f docker-compose-mysql.yml stop mysql
-	docker-compose -f docker-compose-mysql.yml rm -f mysql
+	docker-compose -f docker-compose-mysql.yml rm -fs
 
 .PHONY: mysqld-exporter
 mysqld-exporter: network
@@ -278,31 +268,28 @@ mysqld-exporter-down:
 
 .PHONY: nginx-proxy
 nginx-proxy: network
-	docker-compose -f docker-compose-nginx-proxy.yml up -d nginx-proxy
+	docker-compose -f docker-compose-nginx-proxy.yml up -d
 
 .PHONY: nginx-proxy-down
 nginx-proxy-down:
-	docker-compose -f docker-compose-nginx-proxy.yml stop nginx-proxy
-	docker-compose -f docker-compose-nginx-proxy.yml rm -f nginx-proxy
+	docker-compose -f docker-compose-nginx-proxy.yml rm -fs
 
 .PHONY: phpmyadmin
 phpmyadmin: mariadb
 	@make pingdb
-	docker-compose -f docker-compose-phpmyadmin.yml up -d phpmyadmin
+	docker-compose -f docker-compose-phpmyadmin.yml up -d
 
 .PHONY: phpmyadmin-down
 phpmyadmin-down:
-	docker-compose -f docker-compose-phpmyadmin.yml stop phpmyadmin
-	docker-compose -f docker-compose-phpmyadmin.yml rm -f phpmyadmin
+	docker-compose -f docker-compose-phpmyadmin.yml rm -fs
 
 .PHONY: portainer
 portainer: network
-	docker-compose -f docker-compose-portainer.yml up -d portainer
+	docker-compose -f docker-compose-portainer.yml up -d
 
 .PHONY: portainer-down
 portainer-down:
-	docker-compose -f docker-compose-portainer.yml stop portainer
-	docker-compose -f docker-compose-portainer.yml rm -f portainer
+	docker-compose -f docker-compose-portainer.yml rm -fs
 
 .PHONY: prometheus
 prometheus: network init
@@ -315,30 +302,27 @@ prometheus-down:
 
 .PHONY: redis
 redis: network
-	docker-compose -f docker-compose-redis.yml up -d redis
+	docker-compose -f docker-compose-redis.yml up -d
 
 .PHONY: redis-down
 redis-down:
-	docker-compose -f docker-compose-redis.yml stop redis
-	docker-compose -f docker-compose-redis.yml rm -f redis
+	docker-compose -f docker-compose-redis.yml rm -fs
 
 .PHONY: vault
 vault: network
-	docker-compose -f docker-compose-vault.yml up -d vault
+	docker-compose -f docker-compose-vault.yml up -d
 
 .PHONY: vault-down
 vault-down:
-	docker-compose -f docker-compose-vault.yml stop vault
-	docker-compose -f docker-compose-vault.yml rm -f vault
+	docker-compose -f docker-compose-vault.yml rm -fs
 
 .PHONY: vsftpd
 vsftpd: network
-	docker-compose -f docker-compose-vsftpd.yml up -d vsftpd
+	docker-compose -f docker-compose-vsftpd.yml up -d
 
 .PHONY: vsftpd-down
 vsftpd-down:
-	docker-compose -f docker-compose-vsftpd.yml stop vsftpd
-	docker-compose -f docker-compose-vsftpd.yml rm -f vsftpd
+	docker-compose -f docker-compose-vsftpd.yml rm -fs
 
 
 #####  ####   ####  #       ####
