@@ -7,7 +7,7 @@ Use docker to boot up services, nginx-proxy/mysql/redis etc. The aim of this pro
 
 ## Prerequisites
 
-This project uses compose format version 3.7, so it requires Docker Engine 18.06.0+ and docker-compose 1.22.0+.
+This project uses compose format version 3.7 which requires Docker Engine 18.06.0+ and docker-compose 1.22.0+.
 
 ## Getting started
 
@@ -136,6 +136,7 @@ make help
 - nginx v1.17
 - phpmyadmin v4.9
 - portainer v1.22.0
+- postgres v11.4
 - prometheus v2.11
 - redis v5.0
 - vault v1.2.0

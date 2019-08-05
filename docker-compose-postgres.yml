@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+
+  postgres:
+    image: ${POSTGRES_IMG}
+    restart: unless-stopped
+    container_name: ${POSTGRES_NAME}
+    ports:
+      - "5432"
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - "postgres_data:/var/lib/postgres"
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
+
+volumes:
+  postgres_data:

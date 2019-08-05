@@ -60,6 +60,8 @@ help:
 	# phpmyadmin-down           - remove phpmyadmin container
 	# portainer                 - boot up portainer container
 	# portainer-down            - remove portainer container
+	# postgres                  - boot up postgres container
+	# postgres-down             - remove postgres container
 	# prometheus                - boot up prometheus container
 	# prometheus-down           - remove prometheus container
 	# redis                     - boot up redis container
@@ -85,6 +87,7 @@ help:
 	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
 	# pingdb                    - check mariadb health
 	# pingmysql                 - check mysql health
+	# psql                      - run psql for postgres
 	# vault-cli                 - execute vault commands, e.g. make vault-cli c="kv get secret/hello"
 	#
 	###########################################################################################################
@@ -291,6 +294,14 @@ portainer: network
 portainer-down:
 	docker-compose -f docker-compose-portainer.yml rm -fs
 
+.PHONY: postgres
+postgres: network
+	docker-compose -f docker-compose-postgres.yml up -d
+
+.PHONY: postgres-down
+postgres-down:
+	docker-compose -f docker-compose-postgres.yml rm -fs
+
 .PHONY: prometheus
 prometheus: network init
 	docker-compose -f docker-compose-prometheus.yml up -d
@@ -414,6 +425,10 @@ pingmysql:
 		n=$$?; \
 	done;
 	@make print m="mysql is ready for use";
+
+.PHONY: psql
+psql:
+	docker-compose -f docker-compose-postgres.yml exec postgres psql -U postgres
 
 .PHONY: vault-cli
 vault-cli:
