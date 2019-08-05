@@ -177,6 +177,14 @@ up: network mariadb nginx-proxy phpmyadmin
 .PHONY: down
 down: mariadb-down nginx-proxy-down phpmyadmin-down
 
+.PHONY: adminer
+adminer: network
+	docker-compose -f docker-compose-adminer.yml up -d
+
+.PHONY: adminer-down
+adminer-down:
+	docker-compose -f docker-compose-adminer.yml rm -fs
+
 .PHONY: blackbox-exporter
 blackbox-exporter: network
 	docker-compose -f docker-compose-prometheus.yml up -d blackbox-exporter

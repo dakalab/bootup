@@ -1,4 +1,5 @@
 # BEGIN: bootup local hosts setup
+127.0.0.1 adminer.local
 127.0.0.1 laravel.local
 127.0.0.1 phpmyadmin.local
 127.0.0.1 portainer.local

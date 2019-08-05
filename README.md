@@ -49,6 +49,14 @@ Stop basic services:
 make down
 ```
 
+## Adminer
+
+Boot up adminer:
+
+- add `127.0.0.1 adminer.local` to `/etc/hosts`
+- run `make adminer`
+- visit `http://adminer.local/`
+
 ## Grafana
 
 Boot up grafana:
@@ -125,6 +133,7 @@ make help
 
 ## Components
 
+- adminer v4.7
 - etcd v3.3.13
 - grafana v6.2.5
 - influxdb v1.7
