@@ -368,11 +368,11 @@ certstrap-sign:
 
 .PHONY: conndb
 conndb:
-	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot"
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm mariadb bash -c "mysql -A --default-character-set=utf8 -h${MARIADB_NAME} -uroot"
 
 .PHONY: connmysql
 connmysql:
-	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} bash -c "mysql -A --default-character-set=utf8 -h${MYSQL_NAME} -uroot"
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm mysql bash -c "mysql -A --default-character-set=utf8 -h${MYSQL_NAME} -uroot"
 
 .PHONY: connredis
 connredis:
@@ -381,12 +381,12 @@ connredis:
 .PHONY: dbdump
 dbdump:
 	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysqldump -h ${MARIADB_NAME} -uroot $$db > ./backup/$${db}.sql
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm mariadb mysqldump -h ${MARIADB_NAME} -uroot $$db > ./backup/$${db}.sql
 
 .PHONY: dbimport
 dbimport:
 	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm ${MARIADB_NAME} mysql -h ${MARIADB_NAME} -uroot --database=$$db < ./backup/$${db}.sql
+	docker-compose -f docker-compose-mariadb.yml run -e MYSQL_PWD=${MARIADB_PASSWORD} --rm mariadb mysql -h ${MARIADB_NAME} -uroot --database=$$db < ./backup/$${db}.sql
 
 .PHONY: etcd-cli
 etcd-cli:
@@ -405,12 +405,12 @@ influxdb-cli:
 .PHONY: mysqldump
 mysqldump:
 	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysqldump -h ${MYSQL_NAME} -uroot $$db > ./backup/$${db}.sql
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm mysql mysqldump -h ${MYSQL_NAME} -uroot $$db > ./backup/$${db}.sql
 
 .PHONY: mysqlimport
 mysqlimport:
 	@if [ "$$db" == "" ]; then exit 1; fi; \
-	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm ${MYSQL_NAME} mysql -h ${MYSQL_NAME} -uroot --database=$$db < ./backup/$${db}.sql
+	docker-compose -f docker-compose-mysql.yml run -e MYSQL_PWD=${MYSQL_PASSWORD} --rm mysql mysql -h ${MYSQL_NAME} -uroot --database=$$db < ./backup/$${db}.sql
 
 .PHONY: pingdb
 pingdb:
