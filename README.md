@@ -134,8 +134,9 @@ make help
 ## Components
 
 - adminer v4.7
-- etcd v3.3.13
-- grafana v6.2.5
+- elasticsearch v7.3.0
+- etcd v3.3.14
+- grafana v6.3.3
 - influxdb v1.7
 - jaeger v1.13
 - laravel v5.8
@@ -148,5 +149,5 @@ make help
 - postgres v11.4
 - prometheus v2.11
 - redis v5.0
-- vault v1.2.0
+- vault v1.2.2
 - vsftpd v3.0

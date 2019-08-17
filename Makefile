@@ -34,6 +34,8 @@ help:
 	# down                      - remove basic services
 	# blackbox-exporter         - boot up blackbox-exporter container
 	# blackbox-exporter-down    - remove blackbox-exporter container
+	# elasticsearch             - boot up elasticsearch container
+	# elasticsearch-down        - remove elasticsearch container
 	# etcd                      - boot up single node etcd container
 	# etcd-down                 - remove single node etcd container
 	# etcd-cluster              - boot up etcd cluster containers
@@ -192,6 +194,14 @@ blackbox-exporter: network
 .PHONY: blackbox-exporter-down
 blackbox-exporter-down:
 	docker-compose -f docker-compose-prometheus.yml rm -fs blackbox-exporter
+
+.PHONY: elasticsearch
+elasticsearch: network
+	docker-compose -f docker-compose-elasticsearch.yml up -d
+
+.PHONY: elasticsearch-down
+elasticsearch-down:
+	docker-compose -f docker-compose-elasticsearch.yml rm -fs
 
 .PHONY: etcd
 etcd: network

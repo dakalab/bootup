@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+
+  elasticsearch:
+    image: ${ELASTICSEARCH_IMG}
+    restart: unless-stopped
+    container_name: ${ELASTICSEARCH_NAME}
+    ports:
+      - "9200"
+      - "9300"
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
+
+volumes:
+  esdata:
