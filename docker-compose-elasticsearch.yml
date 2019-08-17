@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     container_name: ${ELASTICSEARCH_NAME}
     ports:
-      - "9200"
-      - "9300"
+      - "9200:9200"
+      - "9300:9300"
     environment:
       - discovery.type=single-node
       - bootstrap.memory_lock=true
