@@ -139,6 +139,7 @@ make help
 - grafana v6.3.3
 - influxdb v1.7
 - jaeger v1.13
+- kibana v7.3.0
 - laravel v5.8
 - mariadb v10.4
 - mongodb v4.0

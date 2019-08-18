@@ -44,3 +44,38 @@ GET http://{{host}}:{{port}}/twitter/_doc/2?pretty=true
 
 ###
 GET http://{{host}}:{{port}}/twitter/_doc/3?pretty=true
+
+###
+GET http://{{host}}:{{port}}/twitter/_search?q=user:kimchy&pretty=true
+
+###
+GET http://{{host}}:{{port}}/twitter/_search?pretty=true
+Content-Type: application/json; charset=utf-8
+
+{
+    "query" : {
+        "match" : { "user": "kimchy" }
+    }
+}
+
+###
+GET http://{{host}}:{{port}}/twitter/_search?pretty=true
+Content-Type: application/json; charset=utf-8
+
+{
+    "query" : {
+        "match_all" : {}
+    }
+}
+
+###
+GET http://{{host}}:{{port}}/twitter/_search?pretty=true
+Content-Type: application/json; charset=utf-8
+
+{
+    "query" : {
+        "range" : {
+            "post_date" : { "from" : "2009-11-15T13:00:00", "to" : "2009-11-15T14:00:00" }
+        }
+    }
+}

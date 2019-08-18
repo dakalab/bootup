@@ -46,6 +46,8 @@ help:
 	# influxdb-down             - remove influxdb container
 	# jaeger                    - boot up jaeger container
 	# jaeger-down               - remove jaeger container
+	# kibana                    - boot up kibana container
+	# kibana-down               - remove kibana container
 	# laravel                   - boot up laravel container
 	# laravel-down              - remove laravel container
 	# mariadb                   - boot up mariadb container
@@ -242,6 +244,14 @@ jaeger: network
 .PHONY: jaeger-down
 jaeger-down:
 	docker-compose -f docker-compose-jaeger.yml rm -fs
+
+.PHONY: kibana
+kibana: network
+	docker-compose -f docker-compose-kibana.yml up -d
+
+.PHONY: kibana-down
+kibana-down:
+	docker-compose -f docker-compose-kibana.yml rm -fs
 
 .PHONY: laravel
 laravel: init mariadb nginx-proxy redis

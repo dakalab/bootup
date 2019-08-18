@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+
+  kibana:
+    image: ${KIBANA_IMG}
+    restart: unless-stopped
+    container_name: ${KIBANA_NAME}
+    ports:
+      - "5601"
+    environment:
+      - VIRTUAL_HOST=${KIBANA_HOST}
+      - VIRTUAL_PORT=5601
+      - SERVER_NAME=kibana
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
