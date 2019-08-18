@@ -81,6 +81,14 @@ Boot up jaeger:
 - run `make jaeger`
 - visit `http://jaeger.local/`
 
+## kibana
+
+Boot up kibana:
+
+- add `127.0.0.1 kibana.local` to `/etc/hosts`
+- run `make kibana`
+- visit `http://kibana.local`
+
 ## Laravel
 
 Boot up laravel:
