@@ -144,6 +144,7 @@ make help
 - adminer v4.7
 - elasticsearch v7.3.0
 - etcd v3.3.14
+- filebeat v7.3.0
 - grafana v6.3.3
 - influxdb v1.7
 - jaeger v1.13

@@ -40,6 +40,8 @@ help:
 	# etcd-down                 - remove single node etcd container
 	# etcd-cluster              - boot up etcd cluster containers
 	# etcd-cluster-down         - remove etcd cluster containers
+	# filebeat                  - boot up single node filebeat container
+	# filebeat-down             - remove single node filebeat container
 	# grafana                   - boot up grafana container
 	# grafana-down              - remove grafana container
 	# influxdb                  - boot up influxdb container
@@ -220,6 +222,14 @@ etcd-cluster: network
 .PHONY: etcd-cluster-down
 etcd-cluster-down:
 	docker-compose -f docker-compose-etcd-cluster.yml rm -fs
+
+.PHONY: filebeat
+filebeat: network
+	docker-compose -f docker-compose-filebeat.yml up -d
+
+.PHONY: filebeat-down
+filebeat-down:
+	docker-compose -f docker-compose-filebeat.yml rm -fs
 
 .PHONY: grafana
 grafana: network

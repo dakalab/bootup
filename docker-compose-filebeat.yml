@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+
+  filebeat:
+    image: ${FILEBEAT_IMG}
+    restart: unless-stopped
+    container_name: ${FILEBEAT_NAME}
+    volumes:
+      - "${PWD}/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - backend
+    user: root
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
