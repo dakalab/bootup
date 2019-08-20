@@ -150,6 +150,7 @@ make help
 - jaeger v1.13
 - kibana v7.3.0
 - laravel v5.8
+- logstash v7.3.0
 - mariadb v10.4
 - mongodb v4.0
 - mysql v8.0

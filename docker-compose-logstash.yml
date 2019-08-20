@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+
+  # see the documents in https://www.elastic.co/guide/en/logstash/current/docker-config.html
+  logstash:
+    image: ${LOGSTASH_IMG}
+    restart: unless-stopped
+    container_name: ${LOGSTASH_NAME}
+    networks:
+      - backend
+    user: root
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

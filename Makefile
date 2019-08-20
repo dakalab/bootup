@@ -52,6 +52,8 @@ help:
 	# kibana-down               - remove kibana container
 	# laravel                   - boot up laravel container
 	# laravel-down              - remove laravel container
+	# logstash                  - boot up logstash container
+	# logstash-down             - remove logstash container
 	# mariadb                   - boot up mariadb container
 	# mariadb-down              - remove mariadb container
 	# mongo                     - boot up mongodb container
@@ -273,6 +275,14 @@ laravel: init mariadb nginx-proxy redis
 .PHONY: laravel-down
 laravel-down:
 	docker-compose -f docker-compose-laravel.yml rm -fs
+
+.PHONY: logstash
+logstash: network
+	docker-compose -f docker-compose-logstash.yml up -d
+
+.PHONY: logstash-down
+logstash-down:
+	docker-compose -f docker-compose-logstash.yml rm -fs
 
 .PHONY: mariadb
 mariadb: network
