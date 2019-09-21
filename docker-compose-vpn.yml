@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+
+  vpn:
+    image: ${VPN_IMG}
+    restart: unless-stopped
+    container_name: ${VPN_NAME}
+    privileged: true
+    ports:
+      - "500:500/udp"
+      - "4500:4500/udp"
+    environment:
+      - VPN_IPSEC_PSK=${VPN_IPSEC_PSK}
+      - VPN_USER=${VPN_USER}
+      - VPN_PASSWORD=${VPN_PASSWORD}
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

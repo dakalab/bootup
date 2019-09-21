@@ -76,6 +76,8 @@ help:
 	# redis-down                - remove redis container
 	# vault                     - boot up vault container
 	# vault-down                - remove vault container
+	# vpn                       - boot up vpn container
+	# vpn-down                  - remove vpn container
 	# vsftpd                    - boot up vsftpd container
 	# vsftpd-down               - remove vsftpd container
 	#
@@ -374,6 +376,14 @@ vault: network
 .PHONY: vault-down
 vault-down:
 	docker-compose -f docker-compose-vault.yml rm -fs
+
+.PHONY: vpn
+vpn: network
+	docker-compose -f docker-compose-vpn.yml up -d
+
+.PHONY: vpn-down
+vpn-down:
+	docker-compose -f docker-compose-vpn.yml rm -fs
 
 .PHONY: vsftpd
 vsftpd: network
