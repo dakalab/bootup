@@ -40,6 +40,8 @@ help:
 	# etcd-down                 - remove single node etcd container
 	# etcd-cluster              - boot up etcd cluster containers
 	# etcd-cluster-down         - remove etcd cluster containers
+	# ethereum                  - boot up single node ethereum container
+	# ethereum-down             - remove single node ethereum container
 	# filebeat                  - boot up single node filebeat container
 	# filebeat-down             - remove single node filebeat container
 	# grafana                   - boot up grafana container
@@ -92,6 +94,7 @@ help:
 	# dbimport                  - import database into MariaDB, e.g. make dbimport db=test
 	# etcd-cli                  - execute etcd commands, e.g. make etcd-cli c="endpoint health"
 	# etcd-cluster-cli          - execute etcd cluster commands, e.g. make etcd-cluster-cli c="member list"
+	# geth                      - execute geth commands, e.g. make geth c="attach"
 	# influxdb-cli              - connect to the local InfluxDB instance
 	# mysqldump                 - dump database from MySQL, e.g. make mysqldump db=test
 	# mysqlimport               - import database into MySQL, e.g. make mysqlimport db=test
@@ -226,6 +229,14 @@ etcd-cluster: network
 .PHONY: etcd-cluster-down
 etcd-cluster-down:
 	docker-compose -f docker-compose-etcd-cluster.yml rm -fs
+
+.PHONY: ethereum
+ethereum: network
+	docker-compose -f docker-compose-ethereum.yml up -d
+
+.PHONY: ethereum-down
+ethereum-down:
+	docker-compose -f docker-compose-ethereum.yml rm -fs
 
 .PHONY: filebeat
 filebeat: network
@@ -447,6 +458,11 @@ etcd-cli:
 .PHONY: etcd-cluster-cli
 etcd-cluster-cli:
 	@make etcd-cli ep="etcd-0:2379,etcd-1:2379,etcd-2:2379" c="$$c"
+
+.PHONY: geth
+geth:
+	@if [ "$$c" == "" ]; then c="-h"; fi; \
+	docker-compose -f docker-compose-ethereum.yml run ethereum $$c
 
 .PHONY: influxdb-cli
 influxdb-cli:

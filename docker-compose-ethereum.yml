@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+
+  ethereum:
+    image: ${ETHEREUM_IMG}
+    restart: unless-stopped
+    container_name: ${ETHEREUM_NAME}
+    ports:
+      - "8545:8545" # used by the HTTP based JSON RPC API
+      - "8546:8546" # used by the WebSocket based JSON RPC API
+      - "8547:8547" # used by the GraphQL API
+      - "30303:30303" # used by the P2P protocol running the network
+      - "30303:30303/udp"
+    volumes:
+      - "./ethereum:/root"
+    networks:
+      - backend
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
