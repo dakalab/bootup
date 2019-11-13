@@ -89,15 +89,6 @@ Boot up kibana:
 - run `make kibana`
 - visit `http://kibana.local`
 
-## Laravel
-
-Boot up laravel:
-
-- add `127.0.0.1 laravel.local` to `/etc/hosts`
-- run `make laravel`
-- run `make logs c=laravel` to watch the setup logs, and take a teatime to wait for initialization finish
-- visit `http://laravel.local`
-
 ## phpMyAdmin
 
 Boot up phpMyAdmin:
@@ -150,7 +141,6 @@ make help
 - influxdb v1.7
 - jaeger v1.13
 - kibana v7.3.0
-- laravel v5.8
 - logstash v7.3.0
 - mariadb v10.4
 - mongodb v4.0

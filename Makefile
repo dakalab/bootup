@@ -52,8 +52,6 @@ help:
 	# jaeger-down               - remove jaeger container
 	# kibana                    - boot up kibana container
 	# kibana-down               - remove kibana container
-	# laravel                   - boot up laravel container
-	# laravel-down              - remove laravel container
 	# logstash                  - boot up logstash container
 	# logstash-down             - remove logstash container
 	# mariadb                   - boot up mariadb container
@@ -277,17 +275,6 @@ kibana: network
 .PHONY: kibana-down
 kibana-down:
 	docker-compose -f docker-compose-kibana.yml rm -fs
-
-.PHONY: laravel
-laravel: init mariadb nginx-proxy redis
-	@make pingdb
-	docker run -it --rm --network=${NETWORK} -v "${PWD}/laravel.sql:/laravel.sql" ${MARIADB_IMG} \
-	bash -c "mysql -A -h${MARIADB_NAME} -uroot -p${MARIADB_PASSWORD} < /laravel.sql"
-	docker-compose -f docker-compose-laravel.yml up -d
-
-.PHONY: laravel-down
-laravel-down:
-	docker-compose -f docker-compose-laravel.yml rm -fs
 
 .PHONY: logstash
 logstash: network
