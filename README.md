@@ -133,23 +133,23 @@ make help
 ## Components
 
 - adminer v4.7
-- elasticsearch v7.3.0
-- etcd v3.3.14
+- elasticsearch v7.4.2
+- etcd v3.4.3
 - geth v1.9.7
-- filebeat v7.3.0
-- grafana v6.3.3
+- filebeat v7.4.2
+- grafana v6.4.4
 - influxdb v1.7
-- jaeger v1.13
-- kibana v7.3.0
-- logstash v7.3.0
+- jaeger v1.15
+- kibana v7.4.2
+- logstash v7.4.2
 - mariadb v10.4
-- mongodb v4.0
+- mongodb v4.2
 - mysql v8.0
 - nginx v1.17
 - phpmyadmin v4.9
-- portainer v1.22.0
-- postgres v11.4
-- prometheus v2.11
+- portainer v1.22.2
+- postgres v12
+- prometheus v2.14.0
 - redis v5.0
-- vault v1.2.2
+- vault v1.2.4
 - vsftpd v3.0
