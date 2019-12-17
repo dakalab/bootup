@@ -114,6 +114,13 @@ Boot up Prometheus:
 - run `make prometheus`
 - visit `http://prometheus.local`
 
+## Traefik
+
+Boot up traefik:
+
+- run `make traefik`
+- visit `http://localhost:8080` to see its dashboard
+
 ## Vault
 
 Boot up vault:
@@ -151,5 +158,6 @@ make help
 - postgres v12
 - prometheus v2.14.0
 - redis v5.0
+- traefik v2.1
 - vault v1.2.4
 - vsftpd v3.0

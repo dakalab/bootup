@@ -14,6 +14,8 @@ services:
       - "14268:14268" # [collector] accept jaeger.thrift directly from clients
       - "14250:14250" # [collector] accept model.proto
       - "9411:9411" # [collector] Zipkin compatible endpoint (optional)
+    labels:
+      - "traefik.http.routers.jaeger.rule=Host(`${JAEGER_HOST}`)"
     environment:
       - VIRTUAL_HOST=${JAEGER_HOST}
       - VIRTUAL_PORT=16686

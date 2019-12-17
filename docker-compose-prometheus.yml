@@ -11,6 +11,8 @@ services:
       - "./prometheus/data:/prometheus"
       - "./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml"
       - "./prometheus/mysqld-exporter.yml:/etc/prometheus/mysqld-exporter.yml"
+    labels:
+      - "traefik.http.routers.prometheus.rule=Host(`${PROMETHEUS_HOST}`)"
     environment:
       - VIRTUAL_HOST=${PROMETHEUS_HOST}
       - VIRTUAL_PORT=9090

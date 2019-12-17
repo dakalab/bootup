@@ -7,6 +7,8 @@ services:
     container_name: ${VAULT_NAME}
     ports:
       - "8200"
+    labels:
+      - "traefik.http.routers.vault.rule=Host(`${VAULT_HOST}`)"
     environment:
       - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT} # this is for dev use, remove it in production use
       - VAULT_ADDR=http://vault:8200

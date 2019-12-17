@@ -7,6 +7,8 @@ services:
     container_name: ${PORTAINER_NAME}
     ports:
       - "9000"
+    labels:
+      - "traefik.http.routers.portainer.rule=Host(`${PORTAINER_HOST}`)"
     environment:
       - VIRTUAL_HOST=${PORTAINER_HOST}
       - VIRTUAL_PORT=9000

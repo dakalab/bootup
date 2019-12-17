@@ -367,6 +367,14 @@ redis: network
 redis-down:
 	docker-compose -f docker-compose-redis.yml rm -fs
 
+.PHONY: traefik
+traefik: network
+	docker-compose -f docker-compose-traefik.yml up -d
+
+.PHONY: traefik-down
+traefik-down:
+	docker-compose -f docker-compose-traefik.yml rm -fs
+
 .PHONY: vault
 vault: network
 	docker-compose -f docker-compose-vault.yml up -d

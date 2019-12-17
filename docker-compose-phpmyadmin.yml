@@ -7,6 +7,8 @@ services:
     container_name: ${PHPMYADMIN_NAME}
     ports:
       - "80"
+    labels:
+      - "traefik.http.routers.phpmyadmin.rule=Host(`${PHPMYADMIN_HOST}`)"
     environment:
       - PMA_HOST=${MARIADB_NAME}
       - VIRTUAL_HOST=${PHPMYADMIN_HOST}

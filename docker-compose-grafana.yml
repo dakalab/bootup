@@ -9,6 +9,8 @@ services:
       - "3000"
     volumes:
       - "./grafana:/var/lib/grafana"
+    labels:
+      - "traefik.http.routers.grafana.rule=Host(`${GRAFANA_HOST}`)"
     environment:
       - VIRTUAL_HOST=${GRAFANA_HOST}
       - VIRTUAL_PORT=3000

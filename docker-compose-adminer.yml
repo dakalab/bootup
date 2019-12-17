@@ -7,6 +7,8 @@ services:
     container_name: ${ADMINER_NAME}
     ports:
       - "8080"
+    labels:
+      - "traefik.http.routers.adminer.rule=Host(`${ADMINER_HOST}`)"
     environment:
       - VIRTUAL_HOST=${ADMINER_HOST}
       - VIRTUAL_PORT=8080
