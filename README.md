@@ -140,24 +140,24 @@ make help
 ## Components
 
 - adminer v4.7
-- elasticsearch v7.4.2
+- elasticsearch v7.5.0
 - etcd v3.4.3
 - geth v1.9.7
-- filebeat v7.4.2
-- grafana v6.4.4
+- filebeat v7.5.0
+- grafana v6.5.2
 - influxdb v1.7
-- jaeger v1.15
-- kibana v7.4.2
-- logstash v7.4.2
+- jaeger v1.16
+- kibana v7.5.0
+- logstash v7.5.0
 - mariadb v10.4
 - mongodb v4.2
 - mysql v8.0
 - nginx v1.17
 - phpmyadmin v4.9
-- portainer v1.22.2
+- portainer v1.23.0
 - postgres v12
 - prometheus v2.14.0
 - redis v5.0
 - traefik v2.1
-- vault v1.2.4
+- vault v1.3.0
 - vsftpd v3.0
