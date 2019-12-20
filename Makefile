@@ -30,8 +30,6 @@ help:
 	# stats                     - show container stats, e.g. make stats c=nginx
 	#
 	# [SERVICES]
-	# up                        - boot up basic services
-	# down                      - remove basic services
 	# blackbox-exporter         - boot up blackbox-exporter container
 	# blackbox-exporter-down    - remove blackbox-exporter container
 	# elasticsearch             - boot up elasticsearch container
@@ -181,12 +179,6 @@ stats:
      # #      #####  #    #  #  #      #           #
 #    # #      #   #   #  #   #  #    # #      #    #
  ####  ###### #    #   ##    #   ####  ######  ####
-
-.PHONY: up
-up: network mariadb nginx-proxy phpmyadmin
-
-.PHONY: down
-down: mariadb-down nginx-proxy-down phpmyadmin-down
 
 .PHONY: adminer
 adminer: network
