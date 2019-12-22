@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  # ref: https://learn.hashicorp.com/consul/day-0/containers-guide
+  # ref: https://learn.hashicorp.com/consul/getting-started/join
+  consul:
+    image: ${CONSUL_IMG}
+    restart: unless-stopped
+    container_name: ${CONSUL_NAME}
+    ports: # ref https://www.consul.io/docs/install/ports.html
+      - "8600:8600/udp" # The DNS server
+      - "8500:8500" # The HTTP API
+      - "8301:8301" # The Serf LAN port
+      - "8302:8302" # The Serf WAN port
+      - "8300:8300" # Server RPC address
+      - "21000:21000" # Sidecar Proxy Min: Inclusive min port number to use for automatically assigned sidecar service registrations
+      - "21255:21255" # Sidecar Proxy Max: Inclusive max port number to use for automatically assigned sidecar service registrations
+    labels:
+      - "traefik.http.routers.consul.rule=Host(`${CONSUL_HOST}`)"
+    environment:
+      - VIRTUAL_HOST=${CONSUL_HOST}
+      - VIRTUAL_PORT=8500
+    networks:
+      - backend
+    command: [
+      "consul",
+      "agent",
+      "-server",
+      "-ui",
+      "-node=server-1",
+      "-bootstrap-expect=1",
+      "-client=0.0.0.0",
+      "-data-dir=/tmp/consul",
+    ]
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

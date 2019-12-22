@@ -30,8 +30,12 @@ help:
 	# stats                     - show container stats, e.g. make stats c=nginx
 	#
 	# [SERVICES]
+	# adminer                   - boot up adminer container
+	# adminer-down              - remove adminer container
 	# blackbox-exporter         - boot up blackbox-exporter container
 	# blackbox-exporter-down    - remove blackbox-exporter container
+	# consul                    - boot up consul container
+	# consul-down               - remove consul container
 	# elasticsearch             - boot up elasticsearch container
 	# elasticsearch-down        - remove elasticsearch container
 	# etcd                      - boot up single node etcd container
@@ -187,6 +191,14 @@ adminer: network
 .PHONY: adminer-down
 adminer-down:
 	docker-compose -f docker-compose-adminer.yml rm -fs
+
+.PHONY: consul
+consul: network
+	docker-compose -f docker-compose-consul.yml up -d
+
+.PHONY: consul-down
+consul-down:
+	docker-compose -f docker-compose-consul.yml rm -fs
 
 .PHONY: blackbox-exporter
 blackbox-exporter: network

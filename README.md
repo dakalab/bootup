@@ -140,6 +140,7 @@ make help
 ## Components
 
 - adminer v4.7
+- consul v1.6
 - elasticsearch v7.5.0
 - etcd v3.4.3
 - geth v1.9.7

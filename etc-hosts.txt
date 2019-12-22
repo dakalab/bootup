@@ -7,4 +7,5 @@
 127.0.0.1 prometheus.local
 127.0.0.1 grafana.local
 127.0.0.1 kibana.local
+127.0.0.1 consul.local
 # END: bootup local hosts setup
