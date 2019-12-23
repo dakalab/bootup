@@ -1,6 +1,6 @@
 version: "3.7"
-services:
 
+services:
   jaeger:
     image: ${JAEGER_IMG}
     restart: unless-stopped

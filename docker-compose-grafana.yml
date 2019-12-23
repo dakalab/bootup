@@ -1,6 +1,6 @@
 version: "3.7"
-services:
 
+services:
   grafana:
     image: ${GRAFANA_IMG}
     restart: unless-stopped

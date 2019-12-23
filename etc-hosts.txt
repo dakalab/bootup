@@ -1,5 +1,6 @@
 # BEGIN: bootup local hosts setup
 127.0.0.1 adminer.local
+127.0.0.1 apollo.local
 127.0.0.1 phpmyadmin.local
 127.0.0.1 portainer.local
 127.0.0.1 vault.local

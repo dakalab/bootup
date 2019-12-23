@@ -1,6 +1,6 @@
 version: "3.7"
-services:
 
+services:
   # see the documents in https://www.elastic.co/guide/en/logstash/current/docker-config.html
   logstash:
     image: ${LOGSTASH_IMG}

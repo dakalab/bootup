@@ -1,4 +1,5 @@
 version: "3.7"
+
 services:
   # ref: https://learn.hashicorp.com/consul/day-0/containers-guide
   # ref: https://learn.hashicorp.com/consul/getting-started/join

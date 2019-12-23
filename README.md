@@ -119,7 +119,7 @@ Boot up Prometheus:
 Boot up traefik:
 
 - run `make traefik`
-- visit `http://localhost:8080` to see its dashboard
+- visit `http://localhost:18080` to see its dashboard
 
 ## Vault
 
@@ -140,6 +140,7 @@ make help
 ## Components
 
 - adminer v4.7
+- apollo v1.5.1
 - consul v1.6
 - elasticsearch v7.5.0
 - etcd v3.4.3

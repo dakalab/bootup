@@ -1,6 +1,6 @@
 version: "3.7"
-services:
 
+services:
   phpmyadmin:
     image: ${PHPMYADMIN_IMG}
     restart: unless-stopped

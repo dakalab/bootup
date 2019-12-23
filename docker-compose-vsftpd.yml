@@ -1,6 +1,6 @@
 version: "3.7"
-services:
 
+services:
   vsftpd:
     image: ${VSFTPD_IMG}
     restart: unless-stopped

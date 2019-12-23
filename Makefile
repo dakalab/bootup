@@ -32,6 +32,8 @@ help:
 	# [SERVICES]
 	# adminer                   - boot up adminer container
 	# adminer-down              - remove adminer container
+	# apollo                    - boot up apollo container
+	# apollo-down               - remove apollo container
 	# blackbox-exporter         - boot up blackbox-exporter container
 	# blackbox-exporter-down    - remove blackbox-exporter container
 	# consul                    - boot up consul container
@@ -191,6 +193,14 @@ adminer: network
 .PHONY: adminer-down
 adminer-down:
 	docker-compose -f docker-compose-adminer.yml rm -fs
+
+.PHONY: apollo
+apollo: network
+	docker-compose -f docker-compose-apollo.yml up -d
+
+.PHONY: apollo-down
+apollo-down:
+	docker-compose -f docker-compose-apollo.yml rm -fs
 
 .PHONY: consul
 consul: network

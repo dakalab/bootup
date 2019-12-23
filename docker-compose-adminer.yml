@@ -1,6 +1,6 @@
 version: "3.7"
-services:
 
+services:
   adminer:
     image: ${ADMINER_IMG}
     restart: unless-stopped

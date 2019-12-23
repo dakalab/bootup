@@ -1,6 +1,6 @@
 version: "3.7"
-services:
 
+services:
   influxdb:
     image: ${INFLUXDB_IMG}
     restart: unless-stopped
