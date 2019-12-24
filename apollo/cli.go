@@ -1,29 +1,48 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"os"
 
-	agollo "github.com/philchia/agollo/v3"
+	"github.com/shima-park/agollo"
 )
 
 func main() {
-	agollo.Start()
-
-	v := agollo.GetStringValue("timeout", "0")
-	fmt.Println(v)
-
-	ns := "application"
-	c := agollo.GetNameSpaceContent(ns, "namespace file contents")
-	fmt.Println(c)
-
-	keys := agollo.GetAllKeys(ns)
-	fmt.Println(keys)
-
-	for {
-		events := agollo.WatchUpdate()
-		changeEvent := <-events
-		bytes, _ := json.Marshal(changeEvent)
-		fmt.Println("event:", string(bytes))
+	err := agollo.InitWithDefaultConfigFile(
+		agollo.WithLogger(agollo.NewLogger(agollo.LoggerWriter(os.Stdout))),
+		agollo.PreloadNamespaces("application"),
+		agollo.AutoFetchOnCacheMiss(),
+		agollo.FailTolerantOnBackupExists(),
+	)
+	if err != nil {
+		panic(err)
 	}
+
+	fmt.Println("timeout:", agollo.Get("timeout"))
+
+	fmt.Println(agollo.GetNameSpace("application"))
+
+	errorCh := agollo.Start()
+	watchCh := agollo.Watch()
+
+	stop := make(chan bool)
+	watchNamespace := "application"
+	watchNSCh := agollo.WatchNamespace(watchNamespace, stop)
+
+	go func() {
+		for {
+			select {
+			case err := <-errorCh:
+				fmt.Println("Error:", err)
+			case resp := <-watchCh:
+				fmt.Printf("Watch Apollo: %+v\n", resp)
+			case resp := <-watchNSCh:
+				fmt.Println("Watch Namespace", watchNamespace, resp)
+			}
+		}
+	}()
+
+	select {}
+
+	agollo.Stop()
 }
