@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  goproxy:
+    image: ${GOPROXY_IMG}
+    restart: unless-stopped
+    container_name: ${GOPROXY_NAME}
+    ports:
+      - "${GOPROXY_PORT}:8081"
+    networks:
+      - backend
+    volumes:
+      - ./go:/go
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

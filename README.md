@@ -146,6 +146,7 @@ make help
 - etcd v3.4.3
 - geth v1.9.7
 - filebeat v7.5.0
+- goproxy v2.0.1
 - grafana v6.5.2
 - influxdb v1.7
 - jaeger v1.16

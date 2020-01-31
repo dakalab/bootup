@@ -48,6 +48,8 @@ help:
 	# ethereum-down             - remove single node ethereum container
 	# filebeat                  - boot up single node filebeat container
 	# filebeat-down             - remove single node filebeat container
+	# goproxy                   - boot up goproxy container
+	# goproxy-down              - remove goproxy container
 	# grafana                   - boot up grafana container
 	# grafana-down              - remove grafana container
 	# influxdb                  - boot up influxdb container
@@ -257,6 +259,14 @@ filebeat: network
 .PHONY: filebeat-down
 filebeat-down:
 	docker-compose -f docker-compose-filebeat.yml rm -fs
+
+.PHONY: goproxy
+goproxy: network
+	docker-compose -f docker-compose-goproxy.yml up -d
+
+.PHONY: goproxy-down
+goproxy-down:
+	docker-compose -f docker-compose-goproxy.yml rm -fs
 
 .PHONY: grafana
 grafana: network
