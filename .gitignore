@@ -1,5 +1,3 @@
 grafana.db
 grafana/png/*
 prometheus/data/*
-data/*
-.agollo

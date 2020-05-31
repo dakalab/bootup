@@ -36,6 +36,8 @@ help:
 	# apollo-down               - remove apollo container
 	# blackbox-exporter         - boot up blackbox-exporter container
 	# blackbox-exporter-down    - remove blackbox-exporter container
+	# clickhouse                - boot up clickhouse container
+	# clickhouse-down           - remove clickhouse container
 	# consul                    - boot up consul container
 	# consul-down               - remove consul container
 	# elasticsearch             - boot up elasticsearch container
@@ -91,6 +93,7 @@ help:
 	# certstrap-init            - initialize a new certificate authority, e.g. make certstrap-init ca=dakalab
 	# certstrap-request         - request a certificate including keypair, e.g. make certstrap-request name=micro
 	# certstrap-sign            - sign certificate request of host and generate the certificate, e.g. make certstrap-sign name=micro ca=dakalab
+	# connclickhouse            - connect to clickhouse
 	# conndb                    - connect to MariaDB using root
 	# connmysql                 - connect to MySQL using root
 	# connredis                 - connect to redis
@@ -203,6 +206,14 @@ apollo: network
 .PHONY: apollo-down
 apollo-down:
 	docker-compose -f docker-compose-apollo.yml rm -fs
+
+.PHONY: clickhouse
+clickhouse: network
+	docker-compose -f docker-compose-clickhouse.yml up -d
+
+.PHONY: clickhouse-down
+clickhouse-down:
+	docker-compose -f docker-compose-clickhouse.yml rm -fs
 
 .PHONY: consul
 consul: network
@@ -445,6 +456,10 @@ certstrap-request:
 certstrap-sign:
 	@if [ "$$ca" == "" ] || [ "$$name" == "" ] ; then exit 1; fi; \
 	docker run --rm -v ${PWD}/certs:/out -it ${CERTSTRAP_IMG} sign $$name --CA "$$ca"
+
+.PHONY: connclickhouse
+connclickhouse:
+	docker run --rm -it --network=${NETWORK} yandex/clickhouse-client --host ${CLICKHOUSE_NAME}
 
 .PHONY: conndb
 conndb:

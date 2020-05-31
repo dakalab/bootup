@@ -141,6 +141,7 @@ make help
 
 - adminer v4.7
 - apollo v1.5.1
+- clickhouse v20.4
 - consul v1.6
 - elasticsearch v7.5.0
 - etcd v3.4.3
