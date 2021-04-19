@@ -88,6 +88,8 @@ help:
 	# vpn-down                  - remove vpn container
 	# vsftpd                    - boot up vsftpd container
 	# vsftpd-down               - remove vsftpd container
+	# xxljob                    - boot up xxljob container
+	# xxljob-down               - remove xxljob container
 	#
 	# [TOOLS]
 	# certstrap-init            - initialize a new certificate authority, e.g. make certstrap-init ca=dakalab
@@ -433,6 +435,14 @@ vsftpd: network
 .PHONY: vsftpd-down
 vsftpd-down:
 	docker-compose -f docker-compose-vsftpd.yml rm -fs
+
+.PHONY: xxljob
+xxljob: network
+	docker-compose -f docker-compose-xxljob.yml up -d
+
+.PHONY: xxljob-down
+xxljob-down:
+	docker-compose -f docker-compose-xxljob.yml rm -fs
 
 
 #####  ####   ####  #       ####

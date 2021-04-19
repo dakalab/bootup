@@ -9,4 +9,5 @@
 127.0.0.1 grafana.local
 127.0.0.1 kibana.local
 127.0.0.1 consul.local
+127.0.0.1 xxl-job-admin.local
 # END: bootup local hosts setup

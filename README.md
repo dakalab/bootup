@@ -165,3 +165,4 @@ make help
 - traefik v2.1
 - vault v1.3.0
 - vsftpd v3.0
+- xxl-job-admin v2.3.0
