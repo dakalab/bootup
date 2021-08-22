@@ -8,6 +8,7 @@ services:
     depends_on:
       - apollo-db
     ports:
+      - "8090:8090"
       - "8080:8080"
       - "8070:8070"
     labels:

@@ -140,7 +140,7 @@ make help
 ## Components
 
 - adminer v4.7
-- apollo v1.5.1
+- apollo v1.8.0
 - clickhouse v20.4
 - consul v1.6
 - elasticsearch v7.5.0
