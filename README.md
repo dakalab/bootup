@@ -57,6 +57,14 @@ Boot up adminer:
 - run `make adminer`
 - visit `http://adminer.local/`
 
+## Consul
+
+Boot up adminer:
+
+- add `127.0.0.1 consul.local` to `/etc/hosts`
+- run `make consul`
+- visit `http://consul.local:8500/`
+
 ## Grafana
 
 Boot up grafana:
@@ -142,7 +150,7 @@ make help
 - adminer v4.7
 - apollo v1.8.0
 - clickhouse v20.4
-- consul v1.6
+- consul v1.14.4
 - elasticsearch v7.5.0
 - etcd v3.4.3
 - geth v1.9.7
