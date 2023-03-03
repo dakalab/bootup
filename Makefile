@@ -396,6 +396,14 @@ prometheus-down:
 	docker-compose -f docker-compose-prometheus.yml stop
 	docker-compose -f docker-compose-prometheus.yml rm -f
 
+.PHONY: rabbitmq
+rabbitmq: network
+	docker-compose -f docker-compose-rabbitmq.yml up -d
+
+.PHONY: rabbitmq-down
+rabbitmq-down:
+	docker-compose -f docker-compose-rabbitmq.yml rm -fs
+
 .PHONY: redis
 redis: network
 	docker-compose -f docker-compose-redis.yml up -d

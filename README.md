@@ -25,12 +25,6 @@ make init
 
 ## Basic services
 
-Boot up basic services:
-
-```
-make up
-```
-
 Boot up a specific service, e.g. `redis`:
 
 ```
@@ -41,12 +35,6 @@ Stop a specific service, e.g. `redis`:
 
 ```
 make redis-down
-```
-
-Stop basic services:
-
-```
-make down
 ```
 
 ## Adminer
@@ -122,6 +110,16 @@ Boot up Prometheus:
 - run `make prometheus`
 - visit `http://prometheus.local`
 
+
+## RabbitMQ
+
+Boot up RabbitMQ:
+
+- add `127.0.0.1 rabbitmq.local` to `/etc/hosts`
+- run `make rabbitmq`
+- visit `http://rabbitmq.local:15672` (admin/admin)
+
+
 ## Traefik
 
 Boot up traefik:
@@ -169,6 +167,7 @@ make help
 - portainer v1.23.0
 - postgres v12
 - prometheus v2.14.0
+- rabbitmq v3.11.8-management
 - redis v5.0
 - traefik v2.1
 - vault v1.3.0

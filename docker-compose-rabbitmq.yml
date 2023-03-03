@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  rabbitmq:
+    image: ${RABBITMQ_IMG}
+    restart: unless-stopped
+    container_name: ${RABBITMQ_NAME}
+    ports:
+      - "5672:5672"
+      - "15672:15672" # admin portal, see https://www.rabbitmq.com/management.html
+    labels:
+      - "traefik.http.routers.rabbitmq.rule=Host(`${RABBITMQ_HOST}`)"
+    environment:
+      - VIRTUAL_HOST=${RABBITMQ_HOST}
+      - VIRTUAL_PORT=15672
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - backend
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}
