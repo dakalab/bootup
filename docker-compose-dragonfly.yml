@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  dragonfly:
+    image: ${DRAGONFLY_IMG}
+    restart: unless-stopped
+    container_name: ${DRAGONFLY_NAME}
+    ulimits:
+      memlock: -1
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+    volumes:
+      - dragonflydata:/data
+volumes:
+  dragonflydata:
+
+networks:
+  backend:
+    external:
+      name: ${NETWORK}

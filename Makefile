@@ -40,6 +40,8 @@ help:
 	# clickhouse-down           - remove clickhouse container
 	# consul                    - boot up consul container
 	# consul-down               - remove consul container
+	# dragonfly                 - boot up dragonfly container
+	# dragonfly-down            - remove dragonfly container
 	# elasticsearch             - boot up elasticsearch container
 	# elasticsearch-down        - remove elasticsearch container
 	# etcd                      - boot up single node etcd container
@@ -80,6 +82,8 @@ help:
 	# postgres-down             - remove postgres container
 	# prometheus                - boot up prometheus container
 	# prometheus-down           - remove prometheus container
+	# rabbitmq                  - boot up rabbitmq container
+	# rabbitmq-down             - remove rabbitmq container
 	# redis                     - boot up redis container
 	# redis-down                - remove redis container
 	# vault                     - boot up vault container
@@ -232,6 +236,14 @@ blackbox-exporter: network
 .PHONY: blackbox-exporter-down
 blackbox-exporter-down:
 	docker-compose -f docker-compose-prometheus.yml rm -fs blackbox-exporter
+
+.PHONY: dragonfly
+dragonfly: network
+	docker-compose -f docker-compose-dragonfly.yml up -d
+
+.PHONY: dragonfly-down
+dragonfly-down:
+	docker-compose -f docker-compose-dragonfly.yml rm -fs
 
 .PHONY: elasticsearch
 elasticsearch: network

@@ -149,6 +149,7 @@ make help
 - apollo v1.8.0
 - clickhouse v20.4
 - consul v1.14.4
+- dragonfly v1.0.0
 - elasticsearch v7.5.0
 - etcd v3.4.3
 - geth v1.9.7
