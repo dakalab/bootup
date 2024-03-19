@@ -135,6 +135,15 @@ Boot up vault:
 - run `make vault`
 - visit `http://vault.local/ui`
 
+
+## XXL Job
+
+Boot up xxl job:
+
+- add `127.0.0.1 xxl-job-admin.local` to `/etc/hosts`
+- run `make xxljob`
+- visit `http://localhost:8088/xxl-job-admin/`, user name: admin, password: 123456
+
 ## Need help?
 
 Just run
@@ -173,4 +182,4 @@ make help
 - traefik v2.1
 - vault v1.3.0
 - vsftpd v3.0
-- xxl-job-admin v2.3.0
+- xxl-job-admin v2.4.0
